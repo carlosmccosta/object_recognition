@@ -39,5 +39,6 @@ class ObjectRecognitionSkillServer {
 	object_recognition_skill_msgs::ObjectRecognitionSkillFeedback feedback_;
 	object_recognition_skill_msgs::ObjectRecognitionSkillResult result_;
 	dynamic_robot_localization::Localization<DRLPointType> object_pose_estimator_;
+	int number_of_recognition_retries_;
 };
 }

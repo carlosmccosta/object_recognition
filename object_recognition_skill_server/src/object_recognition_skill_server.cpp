@@ -17,6 +17,7 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	node_handle_ = _node_handle;
 	private_node_handle_ = _private_node_handle;
 	private_node_handle_->param<std::string>("SkillName", action_server_name_, "object_recognition_skill_server");
+	private_node_handle_->param<int>("number_of_recognition_retries_", number_of_recognition_retries_, 3);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
 	return true;
 }
@@ -41,23 +42,31 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		return;
 	}
 
-	object_pose_estimator_.restartProcessingSensorData();
-	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status;
+	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status = dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation;
 	ros::Rate rate(10);
-	while (true) {
-		if (checkIfPreemptionWasRequested()) {
-			object_pose_estimator_.stopProcessingSensorData();
-			return;
+
+	for (int i = 0; i < number_of_recognition_retries_; ++i) {
+		object_pose_estimator_.setupInitialPose();
+		object_pose_estimator_.restartProcessingSensorData();
+
+		while (true) {
+			if (checkIfPreemptionWasRequested()) {
+				object_pose_estimator_.stopProcessingSensorData();
+				return;
+			}
+
+			ros::spinOnce();
+			status = object_pose_estimator_.getSensorDataProcessingStatus();
+			if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::WaitingForSensorData)
+				rate.sleep();
+			else
+				break;
 		}
 
-		ros::spinOnce();
-		status = object_pose_estimator_.getSensorDataProcessingStatus();
-		if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::WaitingForSensorData)
-			rate.sleep();
-		else
+		object_pose_estimator_.stopProcessingSensorData();
+		if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation)
 			break;
 	}
-	object_pose_estimator_.stopProcessingSensorData();
 
 	if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation)
 		publihGoalAborted("Pose estimation failed");
