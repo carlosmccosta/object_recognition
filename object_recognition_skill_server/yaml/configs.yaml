@@ -1,0 +1,34 @@
+pcl_verbosity_level: 'ERROR'                                    # VERBOSE | DEBUG | INFO | WARN | ERROR | ALWAYS || ALWAYS -> no console output
+ros_verbosity_level: 'INFO'                                     #           DEBUG | INFO | WARN | ERROR | FATAL
+
+localization_point_type: 'PointXYZRGBNormal'
+
+publish_pointclouds_only_if_there_is_subscribers: false
+
+message_management:
+    max_seconds_ambient_pointcloud_age: 10.0
+    use_odom_when_transforming_cloud_to_map_frame: false
+    invert_cloud_to_map_transform: false
+    invert_registration_transformation: false
+    invert_initial_poses_from_msgs: false
+    initial_pose_msg_needs_to_be_in_map_frame: false
+    minimum_number_of_points_in_ambient_pointcloud: 5
+    circular_buffer_clear_inserted_points_if_registration_fails: false
+    use_base_link_frame_when_publishing_initial_poses_array: false
+    apply_cloud_registration_inverse_to_initial_poses_array: false
+    localization_detailed_use_millimeters_in_root_mean_square_error_inliers: true
+    localization_detailed_use_millimeters_in_root_mean_square_error_of_last_registration_correspondences: true
+    localization_detailed_use_millimeters_in_translation_corrections: true
+    localization_detailed_use_degrees_in_rotation_corrections: true
+#    circular_buffer_require_reception_of_pointcloud_msgs_from_all_topics_before_doing_registration: true
+#    minimum_number_points_ambient_pointcloud_circular_buffer: 2500
+#    maximum_number_points_ambient_pointcloud_circular_buffer: 2500
+
+reference_pointclouds:
+    republish_reference_pointcloud_after_successful_registration: true
+    save_reference_pointclouds_in_binary_format: false
+    normalize_normals: true
+
+publish_topic_names:
+    publish_filtered_pointcloud_only_if_there_is_subscribers: false
+    publish_aligned_pointcloud_only_if_there_is_subscribers: false

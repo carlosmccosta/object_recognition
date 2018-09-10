@@ -1,0 +1,68 @@
+normal_estimators:
+    normalize_normals: true
+    # reference_pointcloud:
+    #     display_normals: true
+    #     use_filtered_cloud_as_normal_estimation_surface: true
+    #     normal_estimation_omp:
+    #         search_k: 10
+    #         search_radius: 0.006
+    ambient_pointcloud:
+        use_filtered_cloud_as_normal_estimation_surface: true
+        # compute_normals_when_tracking_pose: false
+        # compute_normals_when_recovering_pose_tracking: false
+        # compute_normals_when_estimating_initial_pose: true
+        normal_estimation_omp:
+            search_k: 0
+            search_radius: 0.007
+            display_normals: false
+            normals_viewer:
+                camera_px: 0.0
+                camera_py: 0.0
+                camera_pz: 2.0
+                camera_up_x: 0.0
+                camera_up_y: -1.0
+                camera_up_z: 0.0
+                normals_size: 0.01
+                axis_size: 0.2
+                background_r: 0.0
+                background_g: 0.0
+                background_b: 0.0
+
+curvature_estimators:
+    reference_pointcloud:
+        principal_curvatures_estimation:
+            colorize_pointcloud_with_curvatures: true
+            display_curvatures: false
+            curvatures_viewer:
+                camera_px: 0.0
+                camera_py: 0.0
+                camera_pz: 2.0
+                camera_up_x: 0.0
+                camera_up_y: -1.0
+                camera_up_z: 0.0
+                normals_size: 0.0025
+                axis_size: 0.2
+                background_r: 0.0
+                background_g: 0.0
+                background_b: 0.0
+            search_k: 0
+            search_radius: 0.007
+            curvature_type: 'CURVATURE_TYPE_MEAN'
+            update_normals_with_principal_component_directions: false
+    ambient_pointcloud:
+        principal_curvatures_estimation:
+            colorize_pointcloud_with_curvatures: true
+            display_curvatures: false
+            curvatures_viewer:
+                camera_px: 0.0
+                camera_py: 0.0
+                camera_pz: 2.0
+                camera_up_x: 0.0
+                camera_up_y: -1.0
+                camera_up_z: 0.0
+                normals_size: 0.0025
+                axis_size: 0.2
+            search_k: 0
+            search_radius: 0.007
+            curvature_type: 'CURVATURE_TYPE_MEAN'
+            update_normals_with_principal_component_directions: false

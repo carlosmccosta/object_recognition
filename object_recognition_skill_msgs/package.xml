@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+
+    <name>object_recognition_skill_msgs</name>
+    <version>1.0.0</version>
+    <description>ROS package with actions for object recognition</description>
+    <author email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</author>
+    <maintainer email="carloscosta.cmcc@gmail.com">Carlos Miguel Correia da Costa</maintainer>
+    <license>BSD</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+    <depend>actionlib_msgs</depend>
+    <depend>geometry_msgs</depend>
+    <depend>std_msgs</depend>
+
+    <depend>message_generation</depend>
+    <depend>message_runtime</depend>
+
+</package>

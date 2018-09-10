@@ -1,0 +1,39 @@
+keypoint_detectors:
+    publish_pointclouds_only_if_there_is_subscribers: false
+    reference_pointcloud:
+        sift_3d:
+            min_scale: 0.002
+            number_octaves: 3
+            number_scales_per_octave: 4
+            min_contrast: 0.0017
+            sift3d_keypoints_cloud_publish_topic: 'reference_keypoints'
+        # intrinsic_shape_signature_3d:
+        #    salient_radius: 0.008
+        #    non_max_radius: 0.006
+        #    normal_radius: 0.006
+        #    border_radius: 0.0
+        #    threshold21: 0.6
+        #    threshold32: 0.4
+        #    min_neighbors: 7
+        #    angle_threshold: 0.77
+        #    iss3d_keypoints_cloud_publish_topic: 'reference_keypoints'
+    ambient_pointcloud:
+        # compute_keypoints_when_tracking_pose: false
+        # compute_keypoints_when_recovering_pose_tracking: false
+        compute_keypoints_when_estimating_initial_pose: true
+        sift_3d:
+            min_scale: 0.002
+            number_octaves: 3
+            number_scales_per_octave: 4
+            min_contrast: 0.0017
+            sift3d_keypoints_cloud_publish_topic: 'ambient_keypoints'
+        # intrinsic_shape_signature_3d:
+        #    salient_radius: 0.008
+        #    non_max_radius: 0.006
+        #    normal_radius: 0.006
+        #    border_radius: 0.0
+        #    threshold21: 0.6
+        #    threshold32: 0.4
+        #    min_neighbors: 7
+        #    angle_threshold: 0.77
+        #    iss3d_keypoints_cloud_publish_topic: 'ambient_keypoints'

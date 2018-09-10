@@ -1,0 +1,26 @@
+tracking_recovery_matchers:
+    point_matchers:
+#        iterative_closest_point:
+#        iterative_closest_point_non_linear:
+        iterative_closest_point_with_normals:
+#        iterative_closest_point_generalized:
+            convergence_time_limit_seconds: 2.0
+            max_correspondence_distance: 0.2
+            transformation_epsilon: 1e-5
+            euclidean_fitness_epsilon: 1e-6
+            max_number_of_registration_iterations: 400
+            max_number_of_ransac_iterations: 0
+            ransac_outlier_rejection_threshold: 0.07
+            match_only_keypoints: false
+            display_cloud_aligment: false
+            maximum_number_of_displayed_correspondences: 0
+            use_reciprocal_correspondences: false
+
+#transformation_validators_tracking_recovery:
+#    euclidean_transformation_validator:
+#        max_transformation_angle: 0.7
+#        max_transformation_distance: 0.4
+#        max_new_pose_diff_angle: 1.04
+#        max_new_pose_diff_distance: 0.4
+#        max_root_mean_square_error: 0.07
+#        max_outliers_percentage: 0.2

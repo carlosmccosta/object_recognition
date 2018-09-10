@@ -1,0 +1,55 @@
+tracking_matchers:
+    ignore_height_corrections: false
+    pose_tracking_timeout: 1.0
+    pose_tracking_minimum_number_of_failed_registrations_since_last_valid_pose: 2
+    pose_tracking_maximum_number_of_failed_registrations_since_last_valid_pose: 4
+    correspondence_estimation_approach: 'CorrespondenceEstimation' # CorrespondenceEstimationLookupTable
+    correspondence_estimation_lookup_table:
+      map_cell_resolution: 0.005
+      map_margin_x: 1.0
+      map_margin_y: 1.0
+      map_margin_z: 0.3
+      map_use_search_tree_when_query_point_is_outside_lookup_table: true
+      map_compute_distance_from_query_point_to_closest_point: false
+      map_initialize_lookup_table_using_euclidean_distance_transform: false
+      sensor_cell_resolution: 0.005
+      sensor_margin_x: 1.0
+      sensor_margin_y: 1.0
+      sensor_margin_z: 0.3
+      sensor_use_search_tree_when_query_point_is_outside_lookup_table: true
+      sensor_compute_distance_from_query_point_to_closest_point: false
+      sensor_initialize_lookup_table_using_euclidean_distance_transform: false
+    point_matchers:
+#        iterative_closest_point:
+#        iterative_closest_point_non_linear:
+        iterative_closest_point_with_normals:
+#        iterative_closest_point_generalized:
+            convergence_time_limit_seconds: 2.0
+            max_correspondence_distance: 0.07
+            transformation_epsilon: 1e-5
+            euclidean_fitness_epsilon: 1e-6
+            max_number_of_registration_iterations: 300
+            max_number_of_ransac_iterations: 0
+            ransac_outlier_rejection_threshold: 0.05
+            match_only_keypoints: false
+            display_cloud_aligment: false
+            maximum_number_of_displayed_correspondences: 0
+            rotation_epsilon: 0.002
+            correspondence_randomness: 50
+            maximum_optimizer_iterations: 100
+            use_reciprocal_correspondences: false
+
+outlier_detectors:
+    euclidean_outlier_detector:
+        max_inliers_distance: 0.008
+        aligned_pointcloud_outliers_publish_topic: 'aligned_pointcloud_outliers'
+        aligned_pointcloud_inliers_publish_topic: 'aligned_pointcloud_inliers'
+
+#transformation_validators:
+#    euclidean_transformation_validator:
+#        max_transformation_angle: 0.3
+#        max_transformation_distance: 0.1
+#        max_new_pose_diff_angle: 1.0
+#        max_new_pose_diff_distance: 0.5
+#        max_root_mean_square_error: 0.05
+#        max_outliers_percentage: 0.1

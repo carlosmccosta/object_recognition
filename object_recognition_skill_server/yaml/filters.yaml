@@ -1,0 +1,42 @@
+filters:
+    publish_pointclouds_only_if_there_is_subscribers: false
+    reference_pointcloud:
+    #     1_voxel_grid:
+    #         leaf_size_x: 0.002
+    #         leaf_size_y: 0.002
+    #         leaf_size_z: 0.002
+    #         filter_limit_field_name: 'z'
+    #         filter_limit_min: -5.0
+    #         filter_limit_max: 5.0
+    #         downsample_all_data: true
+    #         save_leaf_layout: false
+    #         filtered_cloud_publish_topic: ''
+        2_random_sample:
+            number_of_random_samples: 5000
+            invert_sampling: false
+            filtered_cloud_publish_topic: ''
+    ambient_pointcloud_custom_frame:
+        2_voxel_grid:
+            leaf_size_x: 0.002
+            leaf_size_y: 0.002
+            leaf_size_z: 0.002
+            filter_limit_field_name: 'z'
+            filter_limit_min: -5.0
+            filter_limit_max: 5.0
+            downsample_all_data: true
+            save_leaf_layout: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_voxel_grid'
+        3_radius_outlier_removal:
+            radius_search: 0.012
+            min_neighbors_in_radius: 20
+            invert_removal: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_radius_outlier_removal'
+        4_statistical_outlier_removal:
+            number_of_neighbors_for_mean_distance_estimation: 20
+            standard_deviation_multiplier: 1.0
+            invert_selection: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_statistical_outlier_removal'
+        5_random_sample:
+            number_of_random_samples: 1000
+            invert_sampling: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample'

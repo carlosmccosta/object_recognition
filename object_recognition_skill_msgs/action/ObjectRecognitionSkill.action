@@ -1,0 +1,11 @@
+#goal definition
+string objectModel
+---
+#result definition
+geometry_msgs/Pose pose
+int32 percentage
+string skillStatus
+---
+#feedback
+int32 percentage
+string skillStatus

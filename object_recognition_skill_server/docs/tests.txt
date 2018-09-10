@@ -1,0 +1,22 @@
+roslaunch object_recognition_skill_server object_recognition.launch load_object_recognition_skill_server_node:=false
+roslaunch object_recognition_skill_server rviz.launch
+roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
+
+rostopic pub /object_recognition/object_recognition_skill_server/goal object_recognition_skill_msgs/ObjectRecognitionSkillActionGoal "header:
+  seq: 0
+  stamp:
+    secs: 0
+    nsecs: 0
+  frame_id: ''
+goal_id:
+  stamp:
+    secs: 0
+    nsecs: 0
+  id: ''
+goal:
+  objectModel: ''"
+
+
+rostopic echo /object_recognition/object_recognition_skill_server/status
+rostopic echo /object_recognition/object_recognition_skill_server/feedback
+rostopic echo /object_recognition/object_recognition_skill_server/result

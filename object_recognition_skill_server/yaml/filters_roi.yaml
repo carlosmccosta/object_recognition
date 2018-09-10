@@ -1,0 +1,11 @@
+filters:
+    ambient_pointcloud_custom_frame:
+        custom_frame_id: 'map'
+        1_crop_box:
+            box_min_x: 0.112
+            box_min_y: 0.210
+            box_min_z: 0.002
+            box_max_x: 0.252
+            box_max_y: 0.476
+            box_max_z: 0.100
+            filtered_cloud_publish_topic: 'filtered_pointcloud_cropbox'
