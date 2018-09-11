@@ -29,7 +29,7 @@ void ObjectRecognitionSkillServer::start() {
 	actionServer_->start();
 	object_pose_estimator_.startLocalization(false);
 	object_pose_estimator_.stopProcessingSensorData();
-	ros::spin();
+	object_pose_estimator_.startROSSpinner();
 }
 
 
