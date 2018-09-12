@@ -88,6 +88,9 @@
 		<param name="reference_pointclouds/reference_pointcloud_available" type="bool" value="$(arg reference_pointcloud_available)" />
 		<param name="reference_pointclouds/reference_pointcloud_update_mode" type="str" value="$(arg reference_pointcloud_update_mode)" />
 		<param name="normal_estimators/ambient_pointcloud/compute_normals_when_tracking_pose" type="bool" value="$(arg compute_normals_when_tracking_pose)" />
+		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/plane_inliers_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
+		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
+		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/2_random_sample/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
 		<param name="keypoint_detectors/ambient_pointcloud/compute_keypoints_when_tracking_pose" type="bool" value="$(arg compute_keypoints_when_tracking_pose)" />
@@ -106,9 +109,9 @@
 		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
 		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
 
-		<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_frame" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
-		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/reference_cloud_publish_frame" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
-		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/reference_cloud_publish_frame" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
+		<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
+		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
+		<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline)" />
 
 		<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" />

@@ -7,7 +7,7 @@ publish_pointclouds_only_if_there_is_subscribers: false
 
 message_management:
     tf_timeout: 0.5
-    max_seconds_ambient_pointcloud_age: 10.0
+    max_seconds_ambient_pointcloud_age: 30.0
     use_odom_when_transforming_cloud_to_map_frame: false
     invert_cloud_to_map_transform: false
     invert_registration_transformation: false

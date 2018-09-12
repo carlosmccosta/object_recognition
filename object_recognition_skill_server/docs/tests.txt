@@ -1,4 +1,4 @@
-roslaunch object_recognition_skill_server object_recognition.launch load_object_recognition_skill_server_node:=false
+roslaunch object_recognition_skill_server object_recognition.launch load_object_recognition_skill_server_node:=true
 roslaunch object_recognition_skill_server rviz.launch
 roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
 

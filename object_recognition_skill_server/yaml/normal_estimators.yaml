@@ -8,9 +8,9 @@ normal_estimators:
     #         search_radius: 0.006
     ambient_pointcloud:
         use_filtered_cloud_as_normal_estimation_surface: true
-        # compute_normals_when_tracking_pose: false
-        # compute_normals_when_recovering_pose_tracking: false
-        # compute_normals_when_estimating_initial_pose: true
+        compute_normals_when_tracking_pose: true
+        compute_normals_when_recovering_pose_tracking: true
+        compute_normals_when_estimating_initial_pose: true
         normal_estimation_omp:
             search_k: 0
             search_radius: 0.007
