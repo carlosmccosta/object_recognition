@@ -90,7 +90,8 @@
 		<param name="normal_estimators/ambient_pointcloud/compute_normals_when_tracking_pose" type="bool" value="$(arg compute_normals_when_tracking_pose)" />
 		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/plane_inliers_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
 		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/2_random_sample/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
+		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/2_euclidean_clustering/clusters_colored_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
+		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/3_random_sample/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
 		<param name="keypoint_detectors/ambient_pointcloud/compute_keypoints_when_tracking_pose" type="bool" value="$(arg compute_keypoints_when_tracking_pose)" />

@@ -52,7 +52,14 @@ filters:
             segmentation_maximum_distance_to_plane: 0.42
             plane_inliers_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation_inliers'
             filtered_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation'
-        2_random_sample:
+        2_euclidean_clustering:
+            cluster_tolerance: 0.01
+            min_cluster_size: 25
+            min_cluster_index: 0
+            max_cluster_index: 1
+            clusters_colored_cloud_publish_topic: 'filtered_pointcloud_clusters_colored'
+            filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
+        3_random_sample:
             number_of_random_samples: 1000
             invert_sampling: false
             filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample_2'
