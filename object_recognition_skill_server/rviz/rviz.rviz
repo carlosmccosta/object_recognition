@@ -380,6 +380,36 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
+          Color: 255; 255; 255
+          Color Transformer: RGB8
+          Decay Time: 0
+          Enabled: false
+          Invert Rainbow: false
+          Max Color: 255; 255; 255
+          Max Intensity: 4096
+          Min Color: 0; 0; 0
+          Min Intensity: 0
+          Name: Plane segmentation inliers convex hull
+          Position Transformer: XYZ
+          Queue Size: 10
+          Selectable: true
+          Size (Pixels): 3
+          Size (m): 0.00749999983
+          Style: Spheres
+          Topic: /object_recognition/filtered_pointcloud_plane_segmentation_inliers_convex_hull
+          Unreliable: false
+          Use Fixed Frame: true
+          Use rainbow: true
+          Value: false
+        - Alpha: 1
+          Autocompute Intensity Bounds: true
+          Autocompute Value Bounds:
+            Max Value: 10
+            Min Value: -10
+            Value: true
+          Axis: Z
+          Channel Name: intensity
+          Class: rviz/PointCloud2
           Color: 255; 255; 0
           Color Transformer: FlatColor
           Decay Time: 0
@@ -714,25 +744,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.737899005
+      Distance: 0.62907809
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0101466756
-        Y: 0.248916745
-        Z: -0.099295482
+        X: 0.0229397211
+        Y: 0.270324916
+        Z: -0.117437273
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.939795971
+      Pitch: 1.05979586
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 6.27908087
+      Yaw: 6.2740798
     Saved: ~
 Window Geometry:
   Displays:
