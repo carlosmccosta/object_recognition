@@ -1,5 +1,6 @@
 #goal definition
 string objectModel
+int32 clusterIndex
 ---
 #result definition
 geometry_msgs/Pose pose

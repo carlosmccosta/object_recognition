@@ -46,6 +46,10 @@
 	<arg name="yaml_configuration_tracking_filename" default="$(find object_recognition_skill_server)/yaml/pose_tracking.yaml" />
 	<arg name="yaml_configuration_recovery_filename" default="$(find object_recognition_skill_server)/yaml/pose_recovery.yaml" />
 
+	<!-- configurations -->
+	<arg name="action_name" default="object_recognition_skill_server"/>
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/2_euclidean_clustering/" />
+
 	<!-- 3d processing pipeline parameters -->
 	<arg name="load_initial_pose_estimation_pipeline" default="true" />
 	<arg name="load_tracking_pipeline" default="false" />
@@ -62,6 +66,8 @@
 
 
 	<group ns="$(arg namespace)" clear_params="true">
+		<param name="action_name" type="str" value="$(arg action_name)" />
+		<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
 		<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
 		<param name="frame_ids/odom_frame_id" type="str" value="$(arg odom_frame_id)" />
 		<param name="frame_ids/base_link_frame_id" type="str" value="$(arg base_link_frame_id)" />

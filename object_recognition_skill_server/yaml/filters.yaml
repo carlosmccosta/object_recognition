@@ -59,6 +59,7 @@ filters:
             min_cluster_size: 25
             min_cluster_index: 0
             max_cluster_index: 1
+            load_clusters_indices_from_parameter_server_before_filtering: true
             clusters_colored_cloud_publish_topic: 'filtered_pointcloud_clusters_colored'
             filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
         3_random_sample:

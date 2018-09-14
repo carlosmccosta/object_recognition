@@ -1,6 +1,5 @@
 roslaunch object_recognition_skill_server object_recognition.launch load_object_recognition_skill_server_node:=true
 roslaunch object_recognition_skill_server rviz.launch
-roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
 
 rostopic pub /object_recognition/object_recognition_skill_server/goal object_recognition_skill_msgs/ObjectRecognitionSkillActionGoal "header:
   seq: 0
@@ -14,9 +13,10 @@ goal_id:
     nsecs: 0
   id: ''
 goal:
-  objectModel: ''"
+  objectModel: ''
+  clusterIndex: 0"
 
-
-rostopic echo /object_recognition/object_recognition_skill_server/status
-rostopic echo /object_recognition/object_recognition_skill_server/feedback
 rostopic echo /object_recognition/object_recognition_skill_server/result
+
+roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
+
