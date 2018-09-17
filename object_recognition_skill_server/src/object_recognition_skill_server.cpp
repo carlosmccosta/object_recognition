@@ -16,7 +16,7 @@ namespace object_recognition_skill_server {
 bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::NodeHandlePtr &_node_handle, ros::NodeHandlePtr &_private_node_handle) {
 	node_handle_ = _node_handle;
 	private_node_handle_ = _private_node_handle;
-	private_node_handle_->param<std::string>("action_name", action_server_name_, "object_recognition_skill_server");
+	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
 	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
 	private_node_handle_->param<int>("number_of_recognition_retries_", number_of_recognition_retries_, 3);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
