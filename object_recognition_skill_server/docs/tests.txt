@@ -20,3 +20,4 @@ rostopic echo /object_recognition/object_recognition_skill_server/result
 
 roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
 
+rosrun tf static_transform_publisher 0 0 0 0.5 -0.5 0.5 0.5 camera_gray_optical_frame camera_link 100
