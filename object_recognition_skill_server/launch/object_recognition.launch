@@ -22,7 +22,7 @@
 
 	<node if="$(arg load_object_recognition_skill_server_node)"
 		  name="object_recognition_skill_server" pkg="object_recognition_skill_server" type="object_recognition_skill_server_node"
-		  ns="$(arg namespace)" output="screen" />
+		  ns="$(arg namespace)" output="screen" respawn="true" />
 
 
 	<include file="$(find object_recognition_skill_server)/launch/tf_publisher_configuration.launch" ns="$(arg namespace)">
