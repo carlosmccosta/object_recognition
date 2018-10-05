@@ -14,7 +14,7 @@
 
 	<!-- tf configurations -->
 	<arg name="publish_initial_pose" default="true" />
-	<arg name="publish_pose_tf_rate" default="10.0" />
+	<arg name="publish_pose_tf_rate" default="-1.0" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
 	<arg name="invert_tf_transform" default="true" />
 	<arg name="invert_tf_hierarchy" default="true" />
