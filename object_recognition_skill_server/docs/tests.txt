@@ -1,7 +1,7 @@
 roslaunch object_recognition_skill_server object_recognition.launch load_object_recognition_skill_server_node:=true
 roslaunch object_recognition_skill_server rviz.launch
 
-rostopic pub /object_recognition/object_recognition_skill_server/goal object_recognition_skill_msgs/ObjectRecognitionSkillActionGoal "header:
+rostopic pub /object_recognition/ObjectRecognitionSkill/goal object_recognition_skill_msgs/ObjectRecognitionSkillActionGoal "header:
   seq: 0
   stamp:
     secs: 0
@@ -14,21 +14,8 @@ goal_id:
   id: ''
 goal:
   objectModel: ''
-  clusterIndex: 0"
+  clusterIndex: 1"
 
-rostopic echo /object_recognition/object_recognition_skill_server/result
+rostopic echo /object_recognition/ObjectRecognitionSkill/result
 
 roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
-
-
-
-rosrun tf static_transform_publisher -0.1 0 0.015 0 0 0  object object_grasp 100
-
-rosrun tf static_transform_publisher -0.0111506408377 0.141507712168 0.0623876265377 0.0714491546486 -0.171747221858 0.911830262487 0.366010221848 tool0 camera_gray_optical_frame 100
-rosrun tf static_transform_publisher 0 0 0 0.5 -0.5 0.5 0.5 camera_gray_optical_frame camera_link 100
-rosrun tf static_transform_publisher -0.001805 -0.002108 0.223722 -0.0130285 0.0000652 -0.9108709 -0.4124856 tool0 robotiq_tcp 100
-rosrun tf static_transform_publisher 0 0 0 0 0 3.14159265359 robotiq_tcp robotiq 100
-
-rosrun tf static_transform_publisher 0.519177 0.145868 0.235844 -0.3604254 0.9326123 -0.0100568 -0.015054 base tool0 100
-
-rosrun tf static_transform_publisher -0.0049281071256114 0.0051250495392985 0.2236262117918609 0.4124856179972704 0.9108709397424568 0.0000652000027506 0.0130285005684927 object_grasp tool0_grasp 100

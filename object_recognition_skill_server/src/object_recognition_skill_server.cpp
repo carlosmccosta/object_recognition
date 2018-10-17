@@ -74,12 +74,12 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 			break;
 	}
 
-	if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation)
-		publihGoalAborted("Pose estimation failed");
-	else if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation) {
-		tf2::Transform pose_camera_frame = object_pose_estimator_.getAcceptedEstimatedPose().inverse();
-		tf2::toMsg(pose_camera_frame, result_.pose);
+	if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation) {
+		tf2::Transform object_pose_in_camera_frame = object_pose_estimator_.getAcceptedEstimatedPose().inverse();
+		tf2::toMsg(object_pose_in_camera_frame, result_.pose);
 		publishGoalSucceeded();
+	} else {
+		publihGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatusToStr(status) + "]");
 	}
 }
 
