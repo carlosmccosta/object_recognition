@@ -35,16 +35,16 @@ filters:
             downsample_all_data: true
             save_leaf_layout: false
             filtered_cloud_publish_topic: 'filtered_pointcloud_voxel_grid'
-        2_radius_outlier_removal:
-            radius_search: 0.012
-            min_neighbors_in_radius: 20
-            invert_removal: false
-            filtered_cloud_publish_topic: 'filtered_pointcloud_radius_outlier_removal'
-        3_statistical_outlier_removal:
-            number_of_neighbors_for_mean_distance_estimation: 20
-            standard_deviation_multiplier: 1.2
-            invert_selection: false
-            filtered_cloud_publish_topic: 'filtered_pointcloud_statistical_outlier_removal'
+        # 2_radius_outlier_removal:
+        #     radius_search: 0.012
+        #     min_neighbors_in_radius: 20
+        #     invert_removal: false
+        #     filtered_cloud_publish_topic: 'filtered_pointcloud_radius_outlier_removal'
+        # 3_statistical_outlier_removal:
+        #     number_of_neighbors_for_mean_distance_estimation: 20
+        #     standard_deviation_multiplier: 1.2
+        #     invert_selection: false
+        #     filtered_cloud_publish_topic: 'filtered_pointcloud_statistical_outlier_removal'
         4_random_sample:
             number_of_random_samples: 75000
             invert_sampling: false
@@ -64,7 +64,7 @@ filters:
             plane_inliers_convex_hull_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation_inliers_convex_hull'
             filtered_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation'
         2_euclidean_clustering:
-            cluster_tolerance: 0.01
+            cluster_tolerance: 0.012
             min_cluster_size: 25
             min_cluster_index: 0
             max_cluster_index: 1
@@ -72,6 +72,6 @@ filters:
             clusters_colored_cloud_publish_topic: 'filtered_pointcloud_clusters_colored'
             filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
         3_random_sample:
-            number_of_random_samples: 1000
+            number_of_random_samples: 3000
             invert_sampling: false
             filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample_2'

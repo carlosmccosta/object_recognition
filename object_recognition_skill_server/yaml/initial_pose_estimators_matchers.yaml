@@ -5,7 +5,8 @@ initial_pose_estimators_matchers:
         save_descriptors_in_binary_format : true
         keypoint_descriptors:
             feature_descriptor_k_search: 0
-            feature_descriptor_radius_search: 0.007
+            feature_descriptor_radius_search: 0.004
+            # feature_descriptor_radius_search: 0.003
             fpfh:
                 number_subdivisions_f1: 11
                 number_subdivisions_f2: 11
@@ -25,13 +26,14 @@ initial_pose_estimators_matchers:
             # esf:
             #    feature_descriptor_radius_search: 0.015
         matchers:
-            max_correspondence_distance: 0.008
+            # max_correspondence_distance: 0.008
+            max_correspondence_distance: 0.007
             max_number_of_registration_iterations: 200000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 2.5
+                convergence_time_limit_seconds: 1.0
                 similarity_threshold: 0.5
                 inlier_fraction: 0.75
-                number_of_samples: 7
+                number_of_samples: 10
                 correspondence_randomness: 30
                 registered_cloud_publish_topic: 'initial_alignment'
                 reference_cloud_publish_topic: 'initial_alignment_reference_cloud'
@@ -47,7 +49,7 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 120.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 0.75
+            convergence_time_limit_seconds: 0.5
             max_correspondence_distance: 0.07
             transformation_epsilon: 1e-5
             euclidean_fitness_epsilon: 1e-6

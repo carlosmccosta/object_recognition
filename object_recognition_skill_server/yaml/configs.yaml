@@ -1,12 +1,12 @@
 pcl_verbosity_level: 'ERROR'                                    # VERBOSE | DEBUG | INFO | WARN | ERROR | ALWAYS || ALWAYS -> no console output
-ros_verbosity_level: 'INFO'                                     #           DEBUG | INFO | WARN | ERROR | FATAL
+ros_verbosity_level: 'DEBUG'                                     #           DEBUG | INFO | WARN | ERROR | FATAL
 
 localization_point_type: 'PointXYZRGBNormal'
 
 publish_pointclouds_only_if_there_is_subscribers: false
 
 message_management:
-    tf_timeout: 0.5
+    tf_timeout: 0.1
     override_pointcloud_timestamp_to_current_time: true
     max_seconds_ambient_pointcloud_age: 30.0
     use_odom_when_transforming_cloud_to_map_frame: false

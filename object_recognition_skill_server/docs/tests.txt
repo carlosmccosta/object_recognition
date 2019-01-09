@@ -19,3 +19,6 @@ goal:
 rostopic echo /object_recognition/ObjectRecognitionSkill/result
 
 roslaunch object_recognition_dataset test_photoneo_s_15_pointcloud.launch
+
+roslaunch phoxi_camera phoxi_camera.launch
+rosservice call /phoxi_camera/get_frame "in_: -1"

@@ -13,8 +13,8 @@ set(${PROJECT_NAME}_CATKIN_COMPONENTS
 
 add_compile_options(-std=c++11)
 
-find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_COMPONENTS})
 find_package(Boost REQUIRED)
+find_package(catkin REQUIRED COMPONENTS ${${PROJECT_NAME}_CATKIN_COMPONENTS})
 
 catkin_package(
     INCLUDE_DIRS
