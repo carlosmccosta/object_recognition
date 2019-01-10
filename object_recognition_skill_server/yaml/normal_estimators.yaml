@@ -46,7 +46,7 @@ curvature_estimators:
                 background_g: 0.0
                 background_b: 0.0
             search_k: 0
-            search_radius: 0.003
+            search_radius: 0.0035
             # search_radius: 0.0015
             curvature_type: 'CURVATURE_TYPE_MEAN'
             update_normals_with_principal_component_directions: false
@@ -64,7 +64,7 @@ curvature_estimators:
                 normals_size: 0.0025
                 axis_size: 0.2
             search_k: 0
-            search_radius: 0.003
+            search_radius: 0.0035
             # search_radius: 0.002
             curvature_type: 'CURVATURE_TYPE_MEAN'
             update_normals_with_principal_component_directions: false
