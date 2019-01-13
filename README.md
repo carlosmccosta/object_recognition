@@ -11,6 +11,6 @@ Presentation of 6 DoF pose estimation benchmarks available [here](https://www.dr
 Figure 1: Overview of main processing modules
 
 
-[![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/ic9rhJEr_EE/maxresdefault.jpg)](http://www.youtube.com/watch?v=ic9rhJEr_EE)
+[![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/GRR2e6lvnEs/maxresdefault.jpg)](http://www.youtube.com/watch?v=GRR2e6lvnEs)
 
 Video: 6 DoF pose estimation of objects on top of a conveyor
