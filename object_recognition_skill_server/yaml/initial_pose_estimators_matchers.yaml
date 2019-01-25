@@ -29,7 +29,7 @@ initial_pose_estimators_matchers:
             max_correspondence_distance: 0.012
             max_number_of_registration_iterations: 200000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 0.5
+                convergence_time_limit_seconds: 1.25
                 similarity_threshold: 0.5
                 inlier_fraction: 0.75
                 number_of_samples: 10
