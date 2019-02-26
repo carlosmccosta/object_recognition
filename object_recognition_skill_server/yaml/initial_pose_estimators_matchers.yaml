@@ -29,7 +29,7 @@ initial_pose_estimators_matchers:
             max_correspondence_distance: 0.012
             max_number_of_registration_iterations: 200000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 1.25
+                convergence_time_limit_seconds: 1.5
                 similarity_threshold: 0.5
                 inlier_fraction: 0.75
                 number_of_samples: 10
@@ -48,7 +48,7 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 120.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 0.35
+            convergence_time_limit_seconds: 0.6
             max_correspondence_distance: 0.07
             transformation_epsilon: 1e-5
             euclidean_fitness_epsilon: 1e-6
@@ -71,7 +71,7 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 60.0
             correspondence_estimation_normals_angle_penalty_factor: 4.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 0.15
+            convergence_time_limit_seconds: 0.4
             max_correspondence_distance: 0.015
             transformation_epsilon: 1e-5
             euclidean_fitness_epsilon: 1e-6

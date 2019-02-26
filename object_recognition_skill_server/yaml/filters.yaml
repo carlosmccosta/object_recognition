@@ -64,7 +64,7 @@ filters:
             plane_inliers_convex_hull_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation_inliers_convex_hull'
             filtered_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation'
         2_euclidean_clustering:
-            cluster_tolerance: 0.037
+            cluster_tolerance: 0.027
             min_cluster_size: 25
             min_cluster_index: 0
             max_cluster_index: 1

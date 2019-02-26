@@ -39,12 +39,6 @@ tracking_matchers:
             maximum_optimizer_iterations: 100
             use_reciprocal_correspondences: false
 
-outlier_detectors:
-    euclidean_outlier_detector:
-        max_inliers_distance: 0.008
-        aligned_pointcloud_outliers_publish_topic: 'aligned_pointcloud_outliers'
-        aligned_pointcloud_inliers_publish_topic: 'aligned_pointcloud_inliers'
-
 #transformation_validators:
 #    euclidean_transformation_validator:
 #        max_transformation_angle: 0.3

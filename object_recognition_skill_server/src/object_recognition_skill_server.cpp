@@ -18,7 +18,7 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	private_node_handle_ = _private_node_handle;
 	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
 	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
-	private_node_handle_->param<int>("number_of_recognition_retries_", number_of_recognition_retries_, 3);
+	private_node_handle_->param<int>("number_of_recognition_retries", number_of_recognition_retries_, 3);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
 	return true;
 }
@@ -38,7 +38,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	feedback_ = object_recognition_skill_msgs::ObjectRecognitionSkillFeedback();
 	result_ = object_recognition_skill_msgs::ObjectRecognitionSkillResult();
 
-	if (!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel) || !object_pose_estimator_.referencePointCloudLoaded()) {
+	if (object_pose_estimator_.referencePointCloudRequired() && ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded())) {
 		publihGoalAborted("Missing reference point cloud");
 		return;
 	}
