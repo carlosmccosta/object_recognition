@@ -18,6 +18,8 @@
 	<!-- configuration files -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
 	<arg name="yaml_configuration_filters_filename" default="$(find object_recognition_skill_server)/yaml/filters.yaml" />
+	<arg name="yaml_configuration_filters_cad_filename" default="$(find object_recognition_skill_server)/yaml/filters_cad.yaml" />
+	<arg name="yaml_configuration_filters_pca_filename" default="$(find object_recognition_skill_server)/yaml/filters_pca.yaml" />
 	<arg name="yaml_configuration_filters_roi_filename" default="$(find object_recognition_skill_server)/yaml/filters_roi.yaml" />
 	<arg name="yaml_configuration_normal_estimators_filename" default="$(find object_recognition_skill_server)/yaml/normal_estimators.yaml" />
 	<arg name="yaml_configuration_curvature_estimators_filename" default="$(find object_recognition_skill_server)/yaml/curvature_estimators.yaml" />
@@ -26,10 +28,6 @@
 	<arg name="yaml_configuration_initial_pose_estimators_matchers_pca_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_matchers_pca.yaml" />
 	<arg name="yaml_configuration_tracking_filename" default="$(find object_recognition_skill_server)/yaml/pose_tracking.yaml" />
 	<arg name="yaml_configuration_recovery_filename" default="$(find object_recognition_skill_server)/yaml/pose_recovery.yaml" />
-
-	<!-- configurations -->
-	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
-	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/2_euclidean_clustering/" />
 
 	<!-- 3d processing pipeline parameters -->
 	<arg name="load_initial_pose_estimation_pipeline_using_cloud_matching" default="true" />
@@ -47,6 +45,11 @@
 	<arg name="point_matching_publish_tf" default="false" />
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
+
+	<!-- configurations -->
+	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/4_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
 	<!-- reference map data -->
 	<arg name="reference_pointcloud_filename" default="$(find object_recognition_dataset)/models/simoldes/8080__0.5mm_sag_2mm_step.ply" />
@@ -67,6 +70,7 @@
 		<param name="action_server_name" type="str" value="$(arg action_server_name)" />
 		<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
 		<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
+		<param name="frame_ids/map_frame_id_for_publishing_pointclouds" type="str" value="$(arg sensor_frame_id)" />
 		<param name="frame_ids/odom_frame_id" type="str" value="$(arg odom_frame_id)" />
 		<param name="frame_ids/base_link_frame_id" type="str" value="$(arg base_link_frame_id)" />
 		<param name="frame_ids/sensor_frame_id" type="str" value="$(arg sensor_frame_id)" />
@@ -86,14 +90,7 @@
 		<param name="reference_pointclouds/reference_pointcloud_required" type="bool" value="$(arg reference_pointcloud_required)" />
 		<param name="reference_pointclouds/reference_pointcloud_update_mode" type="str" value="$(arg reference_pointcloud_update_mode)" />
 		<param name="normal_estimators/ambient_pointcloud/compute_normals_when_tracking_pose" type="bool" value="$(arg compute_normals_when_tracking_pose)" />
-		
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/plane_inliers_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/plane_inliers_convex_hull_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/1_plane_segmentation/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/2_euclidean_clustering/clusters_colored_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/2_euclidean_clustering/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		<param name="filters/ambient_pointcloud_filters_after_normal_estimation/3_random_sample/filtered_cloud_publish_topic_frame_id" type="str" value="$(arg sensor_frame_id)" />
-		
+
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
 		<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
 		<param name="keypoint_detectors/ambient_pointcloud/compute_keypoints_when_tracking_pose" type="bool" value="$(arg compute_keypoints_when_tracking_pose)" />
@@ -118,7 +115,9 @@
 
 		<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" />
-		<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="true" />
+		<rosparam command="load" file="$(arg yaml_configuration_filters_cad_filename)" subst_value="false" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+		<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+		<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="false" />
 		<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" />
 		<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 		<rosparam command="load" file="$(arg yaml_configuration_keypoint_detectors_filename)" subst_value="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />

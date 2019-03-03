@@ -22,7 +22,7 @@ curvature_estimators:
             update_normals_with_principal_component_directions: false
     ambient_pointcloud:
         principal_curvatures_estimation:
-            colorize_pointcloud_with_curvatures: true
+            colorize_pointcloud_with_curvatures: false
             display_curvatures: false
             curvatures_viewer:
                 camera_px: 0.0
