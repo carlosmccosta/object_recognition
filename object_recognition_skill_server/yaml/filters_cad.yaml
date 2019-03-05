@@ -1,8 +1,8 @@
 filters:
     ambient_pointcloud_filters_after_normal_estimation:
-        4_euclidean_clustering:
+        5_euclidean_clustering:
             cluster_tolerance: 0.017
-            min_cluster_size: 25
+            min_cluster_size: 100
             filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
             cluster_selector:
                 sorting_algorithm: "MaxClusterSizeSorter" # Available sorters: [ MinClusterSizeSorter | MaxClusterSizeSorter | MinDistanceToOriginSorter | MaxDistanceToOriginSorter | MinAxisValueSorter | MaxAxisValueSorter ]

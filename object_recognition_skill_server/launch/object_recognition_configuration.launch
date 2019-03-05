@@ -2,7 +2,7 @@
 <launch>
 
 	<!-- namespace for parameters -->
-	<arg name="namespace" default="object_recognition" />
+	<arg name="namespace" default="object_recognition/object_recognition_skill_server" />
 
 	<!-- topics -->
 	<arg name="pose_with_covariance_stamped_topic" default="initial_pose" /> <!-- rviz topic -->
@@ -48,7 +48,7 @@
 
 	<!-- configurations -->
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
-	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/4_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
 	<!-- reference map data -->

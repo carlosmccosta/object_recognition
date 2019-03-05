@@ -17,7 +17,6 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	node_handle_ = _node_handle;
 	private_node_handle_ = _private_node_handle;
 	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
-	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
 	private_node_handle_->param<int>("number_of_recognition_retries", number_of_recognition_retries_, 3);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
 	return true;
@@ -43,10 +42,12 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		return;
 	}
 
-	if (!clustering_module_parameter_server_namespace_.empty()) {
-		private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "/min_cluster_index", _goal->clusterIndex);
-		private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "/max_cluster_index", _goal->clusterIndex + 1);
-	}
+	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
+	if (!clustering_module_parameter_server_namespace_.empty() && clustering_module_parameter_server_namespace_.back() != '/')
+		clustering_module_parameter_server_namespace_ += "/";
+
+	private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
+	private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
 
 	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status = dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation;
 	ros::Rate rate(10);

@@ -11,19 +11,19 @@ normal_estimators:
         compute_normals_when_tracking_pose: true
         compute_normals_when_recovering_pose_tracking: true
         compute_normals_when_estimating_initial_pose: true
-        # normal_estimation_omp:
-        #     search_k: 0
-        #     search_radius: 0.007
-        #     display_normals: false
-        #     normals_viewer:
-        #         camera_px: 0.0
-        #         camera_py: 0.0
-        #         camera_pz: 2.0
-        #         camera_up_x: 0.0
-        #         camera_up_y: -1.0
-        #         camera_up_z: 0.0
-        #         normals_size: 0.01
-        #         axis_size: 0.2
-        #         background_r: 0.0
-        #         background_g: 0.0
-        #         background_b: 0.0
+        normal_estimation_omp:
+            search_k: 0
+            search_radius: 0.004
+            display_normals: false
+            normals_viewer:
+                camera_px: 0.0
+                camera_py: 0.0
+                camera_pz: 2.0
+                camera_up_x: 0.0
+                camera_up_y: -1.0
+                camera_up_z: 0.0
+                normals_size: 0.01
+                axis_size: 0.2
+                background_r: 0.0
+                background_g: 0.0
+                background_b: 0.0
