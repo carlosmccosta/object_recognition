@@ -1,11 +1,12 @@
-#filters:
-#    ambient_pointcloud_custom_frame:
-#        custom_frame_id: 'map'
-#        1_crop_box:
-#            box_min_x: 0.112
-#            box_min_y: 0.210
-#            box_min_z: 0.002
-#            box_max_x: 0.252
-#            box_max_y: 0.476
-#            box_max_z: 0.100
-#            filtered_cloud_publish_topic: 'filtered_pointcloud_cropbox'
+# filters:
+#     ambient_pointcloud_custom_frame:
+#         custom_frame_id: 'camera_base_link'
+#         0_crop_box:
+#             box_min_x: 0.32
+#             box_min_y: -0.12
+#             box_min_z: -0.17
+#             box_max_x: 0.65
+#             box_max_y: 0.12
+#             box_max_z: 0.17
+#             invert_selection: false
+#             filtered_cloud_publish_topic: 'filtered_pointcloud_cropbox_camera_base_link'

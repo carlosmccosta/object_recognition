@@ -1,41 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-	<arg name="namespace" default="object_recognition" />
-	<arg name="namespace_server" default="object_recognition_skill_server" />
-	<arg name="namespace_tf_publisher" default="pose_to_tf_publisher" />
-	<arg name="object_frame_id" default="object" />
-	<arg name="sensor_frame_id" default="camera_link" />
-	<arg name="reference_pointcloud_filename" default="$(find object_recognition_dataset)/models/simoldes/8080__0.5mm_sag_2mm_step.ply" />
-	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
+	<!-- control of nodes startup -->
 	<arg name="load_object_recognition_skill_server_node" default="true" />
 	<arg name="load_object_recognition_skill_tf_publisher_node" default="false" />
+	<arg name="enable_respawn" default="true" />
+
+	<!-- namespace for parameters -->
+	<arg name="namespace" default="object_recognition" />
+	<arg name="namespace_object_recognition_skill_server" default="object_recognition_skill_server" />
+	<arg name="namespace_tf_publisher" default="pose_to_tf_publisher" />
+
+	<!-- topics -->
+	<arg name="pose_with_covariance_stamped_topic" default="initial_pose" /> <!-- rviz topic -->
+	<arg name="pose_stamped_publish_topic" default="localization_pose" />
+	<arg name="ambient_pointcloud_topic" default="/camera/depth_registered/points" />
+
+	<!-- frame ids -->
+	<arg name="object_frame_id" default="object" />
+	<arg name="sensor_frame_id" default="camera_link" />
+	<arg name="odom_frame_id" default="$(arg sensor_frame_id)" />
+	<arg name="base_link_frame_id" default="$(arg sensor_frame_id)" />
+
+	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
+	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
+	<arg name="yaml_configuration_filters_filename" default="$(find object_recognition_skill_server)/yaml/filters.yaml" />
+	<arg name="yaml_configuration_filters_cad_filename" default="$(find object_recognition_skill_server)/yaml/filters_cad.yaml" />
+	<arg name="yaml_configuration_filters_pca_filename" default="$(find object_recognition_skill_server)/yaml/filters_pca.yaml" />
+	<arg name="yaml_configuration_filters_roi_filename" default="$(find object_recognition_skill_server)/yaml/filters_roi.yaml" />
+	<arg name="yaml_configuration_normal_estimators_filename" default="$(find object_recognition_skill_server)/yaml/normal_estimators.yaml" />
+	<arg name="yaml_configuration_curvature_estimators_filename" default="$(find object_recognition_skill_server)/yaml/curvature_estimators.yaml" />
+	<arg name="yaml_configuration_keypoint_detectors_filename" default="$(find object_recognition_skill_server)/yaml/keypoint_detectors.yaml" />
+	<arg name="yaml_configuration_initial_pose_estimators_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_matchers.yaml" />
+	<arg name="yaml_configuration_initial_pose_estimators_matchers_pca_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_matchers_pca.yaml" />
+	<arg name="yaml_configuration_tracking_filename" default="$(find object_recognition_skill_server)/yaml/pose_tracking.yaml" />
+	<arg name="yaml_configuration_recovery_filename" default="$(find object_recognition_skill_server)/yaml/pose_recovery.yaml" />
+	<arg name="yaml_configuration_custom_filename" default="" /> <!-- extra custom configurations loaded last -->
+
+	<!-- 3d processing pipeline parameters -->
 	<arg name="load_initial_pose_estimation_pipeline_using_cloud_matching" default="true" />
 
+	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="true" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="load_tracking_pipeline" default="false" />
+	<arg name="compute_normals_when_tracking_pose" default="false" />
+	<arg name="compute_keypoints_when_tracking_pose" default="false" />
 
-	<include file="$(find object_recognition_skill_server)/launch/object_recognition_configuration.launch" ns="$(arg namespace)">
-		<arg name="namespace" default="$(arg namespace_server)" />
-		<arg name="object_frame_id" default="$(arg object_frame_id)" />
-		<arg name="sensor_frame_id" default="$(arg sensor_frame_id)" />
-		<arg name="reference_pointcloud_filename" default="$(arg reference_pointcloud_filename)" />
-		<arg name="action_server_name" default="$(arg action_server_name)"/>
-		<arg name="load_initial_pose_estimation_pipeline_using_cloud_matching" default="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	</include>
+	<arg name="feature_matching_publish_tf" default="false" />
+	<arg name="feature_matching_tf_broadcaster_frame_id_suffix" default="feature_matching" />
+	<arg name="point_matcher_intermediate" default="1_iterative_closest_point_with_normals" />
+	<arg name="point_matcher_final" default="2_iterative_closest_point_with_normals" />
+	<arg name="point_matching_publish_tf" default="false" />
+	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
+	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
 
-	<node if="$(arg load_object_recognition_skill_server_node)"
-		  name="object_recognition_skill_server" pkg="object_recognition_skill_server" type="object_recognition_skill_server_node"
-		  ns="$(arg namespace)" output="screen" respawn="true" />
+	<!-- configurations -->
+	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
+	<!-- reference map data -->
+	<arg name="reference_pointcloud_filename" default="$(find object_recognition_dataset)/models/simoldes/8080__0.5mm_sag_2mm_step.ply" />
+	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
+	<arg name="reference_pointcloud_available" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="reference_pointcloud_available" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+	<arg name="reference_pointcloud_required" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="reference_pointcloud_required" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+	<arg name="reference_pointcloud_type" default="3D" />
+	<arg name="reference_pointcloud_update_mode" default="NoIntegration" />
+	<arg name="reference_pointcloud_keypoints_filename" default="" />
+	<arg name="reference_pointcloud_keypoints_save_filename" default="" />
+	<arg name="reference_pointcloud_descriptors_filename" default="" />
+	<arg name="reference_pointcloud_descriptors_save_filename" default="" />
 
-	<include file="$(find object_recognition_skill_server)/launch/tf_publisher_configuration.launch" ns="$(arg namespace)">
-		<arg name="namespace" default="$(arg namespace_tf_publisher)" if="$(arg load_object_recognition_skill_tf_publisher_node)"/>
-		<arg name="namespace" default="$(arg namespace_server)/$(arg namespace_tf_publisher)" unless="$(arg load_object_recognition_skill_tf_publisher_node)"/>
-		<arg name="object_frame_id" default="$(arg object_frame_id)" />
-		<arg name="sensor_frame_id" default="$(arg sensor_frame_id)" />
-	</include>
+	<group ns="$(arg namespace)">
+		<group ns="$(arg namespace_object_recognition_skill_server)" clear_params="true">
+			<param name="action_server_name" type="str" value="$(arg action_server_name)" />
+			<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
+			<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
+			<param name="frame_ids/map_frame_id_for_publishing_pointclouds" type="str" value="$(arg sensor_frame_id)" />
+			<param name="frame_ids/odom_frame_id" type="str" value="$(arg odom_frame_id)" />
+			<param name="frame_ids/base_link_frame_id" type="str" value="$(arg base_link_frame_id)" />
+			<param name="frame_ids/sensor_frame_id" type="str" value="$(arg sensor_frame_id)" />
+			<param name="initial_pose/robot_initial_pose_available" type="bool" value="false" />
+			<param name="subscribe_topic_names/pose_topic" type="str" value="" />
+			<param name="subscribe_topic_names/pose_stamped_topic" type="str" value="" />
+			<param name="subscribe_topic_names/pose_with_covariance_stamped_topic" type="str" value="$(arg pose_with_covariance_stamped_topic)" />
+			<param name="subscribe_topic_names/ambient_pointcloud_topic" type="str" value="$(arg ambient_pointcloud_topic)" />
+			<param name="subscribe_topic_names/reference_costmap_topic" type="str" value="" />
+			<param name="subscribe_topic_names/reference_pointcloud_topic" type="str" value="" />
+			<param name="publish_topic_names/pose_with_covariance_stamped_publish_topic" type="str" value="" />
+			<param name="publish_topic_names/pose_stamped_publish_topic" type="str" value="$(arg pose_stamped_publish_topic)" />
+			<param name="reference_pointclouds/reference_pointcloud_filename" type="str" value="$(arg reference_pointcloud_filename)" />
+			<param name="reference_pointclouds/reference_pointcloud_preprocessed_save_filename" type="str" value="$(arg reference_pointcloud_preprocessed_save_filename)" />
+			<param name="reference_pointclouds/reference_pointcloud_type" type="str" value="$(arg reference_pointcloud_type)" />
+			<param name="reference_pointclouds/reference_pointcloud_available" type="bool" value="$(arg reference_pointcloud_available)" />
+			<param name="reference_pointclouds/reference_pointcloud_required" type="bool" value="$(arg reference_pointcloud_required)" />
+			<param name="reference_pointclouds/reference_pointcloud_update_mode" type="str" value="$(arg reference_pointcloud_update_mode)" />
+			<param name="normal_estimators/ambient_pointcloud/compute_normals_when_tracking_pose" type="bool" value="$(arg compute_normals_when_tracking_pose)" />
 
-	<node if="$(arg load_object_recognition_skill_tf_publisher_node)"
-		  name="pose_to_tf_publisher" pkg="pose_to_tf_publisher" type="pose_to_tf_publisher_node"
-		  ns="$(arg namespace)" output="screen"/>
+			<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
+			<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
+			<param name="keypoint_detectors/ambient_pointcloud/compute_keypoints_when_tracking_pose" type="bool" value="$(arg compute_keypoints_when_tracking_pose)" />
+			<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_filename" type="str" value="$(arg reference_pointcloud_descriptors_filename)" />
+			<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_save_filename" type="str" value="$(arg reference_pointcloud_descriptors_save_filename)" />
+
+			<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/publish_tf" type="bool" value="$(arg feature_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+
+			<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+
+			<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" if="$(eval bool(yaml_configuration_configs_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_cad_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_cad_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_pca_filename) and not load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_roi_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_curvature_estimators_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_keypoint_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_keypoint_detectors_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_matchers_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_matchers_pca_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_matchers_pca_filename) and load_initial_pose_estimation_pipeline_using_pca)" />
+			<rosparam command="load" file="$(arg yaml_configuration_tracking_filename)" subst_value="true" if="$(eval bool(yaml_configuration_tracking_filename) and load_tracking_pipeline)" />
+			<rosparam command="load" file="$(arg yaml_configuration_recovery_filename)" subst_value="true" if="$(eval bool(yaml_configuration_recovery_filename) and load_tracking_pipeline)" />
+			<rosparam command="load" file="$(arg yaml_configuration_custom_filename)" subst_value="true" if="$(eval bool(yaml_configuration_custom_filename))" />
+		</group>
+		<node if="$(arg load_object_recognition_skill_server_node)" name="$(arg namespace_object_recognition_skill_server)" pkg="object_recognition_skill_server" type="object_recognition_skill_server_node" respawn="$(arg enable_respawn)" output="screen" />
+
+		<include file="$(find object_recognition_skill_server)/launch/tf_publisher_configuration.launch">
+			<arg name="namespace" default="$(arg namespace_tf_publisher)" if="$(arg load_object_recognition_skill_tf_publisher_node)"/>
+			<arg name="namespace" default="$(arg namespace_object_recognition_skill_server)/$(arg namespace_tf_publisher)" unless="$(arg load_object_recognition_skill_tf_publisher_node)"/>
+			<arg name="object_frame_id" default="$(arg object_frame_id)" />
+			<arg name="sensor_frame_id" default="$(arg sensor_frame_id)" />
+		</include>
+		<node if="$(arg load_object_recognition_skill_tf_publisher_node)" name="pose_to_tf_publisher" pkg="pose_to_tf_publisher" type="pose_to_tf_publisher_node" respawn="$(arg enable_respawn)" output="screen" />
+	</group>
 
 </launch>
