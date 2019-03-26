@@ -27,3 +27,15 @@ normal_estimators:
                 background_r: 0.0
                 background_g: 0.0
                 background_b: 0.0
+        # moving_least_squares:                 # Allows prefix and postfix of letters to ensure parsing order | Estimates the normal and curvature of points by performing surface fitting and resampling
+        #     display_normals: false
+        #     compute_normals: true             # Set whether the algorithm should also store the normals computed
+        #     polynomial_order: 2               # The order of the polynomial to be fit (order > 1 indicates using a polynomial fit)
+        #     search_radius: 0.007              # The sphere radius that is to be used for determining the k-nearest neighbors used for surface fitting
+        #     sqr_gauss_param: 0.0124           # Set the parameter used for distance based weighting of neighbors (the square of the search radius works best in general)
+        #     upsample_method: 'NONE'           # The upsampling method to be used ( NONE | DISTINCT_CLOUD | SAMPLE_LOCAL_PLANE | RANDOM_UNIFORM_DENSITY | VOXEL_GRID_DILATION )
+        #     upsampling_radius: 0.05           # The radius of the circle in the local point plane that will be sampled (used only in the case of SAMPLE_LOCAL_PLANE upsampling)
+        #     upsampling_step: 0.007            # The step size for the local plane sampling (used only in the case of SAMPLE_LOCAL_PLANE upsampling)
+        #     desired_num_points_in_radius: 5   # The parameter that specifies the desired number of points within the search radius (used only in the case of RANDOM_UNIFORM_DENSITY upsampling)
+        #     dilation_voxel_size: 0.01         # The voxel size for the voxel grid (used only in the VOXEL_GRID_DILATION upsampling method)
+        #     dilation_iterations: 1            # The number of dilation steps of the voxel grid (used only in the VOXEL_GRID_DILATION upsampling method)

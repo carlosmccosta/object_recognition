@@ -16,6 +16,7 @@ message_management:
     initial_pose_msg_needs_to_be_in_map_frame: false
     minimum_number_of_points_in_ambient_pointcloud: 5
     circular_buffer_clear_inserted_points_if_registration_fails: false
+    limit_of_pointclouds_to_process: 1
     use_base_link_frame_when_publishing_initial_poses_array: false
     apply_cloud_registration_inverse_to_initial_poses_array: false
     localization_detailed_use_millimeters_in_root_mean_square_error_inliers: true
