@@ -7,11 +7,6 @@ This package relies on [dynamic_robot_localization](https://github.com/carlosmcc
 Presentation of 6 DoF pose estimation benchmarks available [here](https://www.dropbox.com/s/frnpqfj71omnet9/Scalable_RM_T4.5.pptx?dl=0).
 
 
-![Overview of main processing modules](https://www.dropbox.com/s/xs8g477731vigdh/localization-system-modules.png?raw=1)
-
-Figure 1: Overview of main processing modules
-
-
 [![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/GRR2e6lvnEs/maxresdefault.jpg)](http://www.youtube.com/watch?v=GRR2e6lvnEs)
 
 Video 1: 6 DoF pose estimation of objects on top of a conveyor using CAD matching
@@ -20,3 +15,8 @@ Video 1: 6 DoF pose estimation of objects on top of a conveyor using CAD matchin
 [![Bin picking using region growing and principal component analysis](http://img.youtube.com/vi/6BgnQP4TeJM/maxresdefault.jpg)](http://www.youtube.com/watch?v=6BgnQP4TeJM)
 
 Video 2: 6 DoF pose estimation of the vacuum grasp pose for smooth objects inside bins using region growing and principal component analysis
+
+
+![Overview of the main processing modules](https://raw.githubusercontent.com/carlosmccosta/dynamic_robot_localization/kinetic-devel/docs/system-modules.png)
+
+Figure 1: Overview of main processing modules
