@@ -46,13 +46,15 @@
 	<arg name="compute_normals_when_tracking_pose" default="false" />
 	<arg name="compute_keypoints_when_tracking_pose" default="false" />
 
-	<arg name="feature_matching_publish_tf" default="false" />
+	<arg name="feature_matching_publish_tf" default="true" />
 	<arg name="feature_matching_tf_broadcaster_frame_id_suffix" default="feature_matching" />
 	<arg name="point_matcher_intermediate" default="1_iterative_closest_point_with_normals" />
 	<arg name="point_matcher_final" default="2_iterative_closest_point_with_normals" />
-	<arg name="point_matching_publish_tf" default="false" />
+	<arg name="point_matching_publish_tf" default="true" />
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
+
+	<arg name="publish_pose_tf_rate" default="-1.0" />
 
 	<!-- configurations -->
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
@@ -60,12 +62,12 @@
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
 	<!-- reference map data -->
-	<arg name="reference_pointcloud_filename" default="$(find object_recognition_dataset)/models/simoldes/8080__0.5mm_sag_2mm_step.ply" />
+	<arg name="reference_pointcloud_filename" default="$(find object_recognition_fasten_dataset)/models/embraer/reinforced_bracket__0.1mm_sag_0.5mm_step_meters.ply" />
 	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
 	<arg name="reference_pointcloud_available" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	<arg name="reference_pointcloud_available" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+	<arg name="reference_pointcloud_available" default="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="reference_pointcloud_required" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	<arg name="reference_pointcloud_required" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+	<arg name="reference_pointcloud_required" default="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="reference_pointcloud_type" default="3D" />
 	<arg name="reference_pointcloud_update_mode" default="NoIntegration" />
 	<arg name="reference_pointcloud_keypoints_filename" default="" />
@@ -124,7 +126,7 @@
 			<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" if="$(eval bool(yaml_configuration_configs_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_cad_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_cad_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-			<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_pca_filename) and not load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_pca_filename) and load_initial_pose_estimation_pipeline_using_pca)" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_roi_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_curvature_estimators_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
@@ -142,6 +144,7 @@
 			<arg name="namespace" default="$(arg namespace_object_recognition_skill_server)/$(arg namespace_tf_publisher)" unless="$(arg load_object_recognition_skill_tf_publisher_node)"/>
 			<arg name="object_frame_id" default="$(arg object_frame_id)" />
 			<arg name="sensor_frame_id" default="$(arg sensor_frame_id)" />
+			<arg name="publish_pose_tf_rate" default="$(arg publish_pose_tf_rate)" />
 		</include>
 		<node if="$(arg load_object_recognition_skill_tf_publisher_node)" name="pose_to_tf_publisher" pkg="pose_to_tf_publisher" type="pose_to_tf_publisher_node" respawn="$(arg enable_respawn)" output="screen" />
 	</group>
