@@ -58,6 +58,7 @@
 
 	<!-- configurations -->
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
+	<arg name="number_of_recognition_retries" default="5"/>
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
@@ -78,6 +79,7 @@
 	<group ns="$(arg namespace)">
 		<group ns="$(arg namespace_object_recognition_skill_server)" clear_params="true">
 			<param name="action_server_name" type="str" value="$(arg action_server_name)" />
+			<param name="number_of_recognition_retries" type="int" value="$(arg number_of_recognition_retries)" />
 			<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
 			<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
 			<param name="frame_ids/map_frame_id_for_publishing_pointclouds" type="str" value="$(arg sensor_frame_id)" />
