@@ -49,7 +49,7 @@
 	<arg name="feature_matching_publish_tf" default="true" />
 	<arg name="feature_matching_tf_broadcaster_frame_id_suffix" default="feature_matching" />
 	<arg name="point_matcher_intermediate" default="1_iterative_closest_point_with_normals" />
-	<arg name="point_matcher_final" default="2_iterative_closest_point_with_normals" />
+	<arg name="point_matcher_final" default="2_iterative_closest_point" />
 	<arg name="point_matching_publish_tf" default="true" />
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
@@ -63,7 +63,8 @@
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
 	<!-- reference map data -->
-	<arg name="reference_pointcloud_filename" default="$(find object_recognition_fasten_dataset)/models/embraer/reinforced_bracket__0.1mm_sag_0.5mm_step_meters.ply" />
+	<arg name="reference_pointclouds_database_folder_path" default="$(find object_recognition_fasten_dataset)/models/" />
+	<arg name="reference_pointcloud_filename" default="embraer/reinforced_bracket__0.1mm_sag_0.5mm_step_meters.ply" />
 	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
 	<arg name="reference_pointcloud_available" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="reference_pointcloud_available" default="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
@@ -95,6 +96,7 @@
 			<param name="subscribe_topic_names/reference_pointcloud_topic" type="str" value="" />
 			<param name="publish_topic_names/pose_with_covariance_stamped_publish_topic" type="str" value="" />
 			<param name="publish_topic_names/pose_stamped_publish_topic" type="str" value="$(arg pose_stamped_publish_topic)" />
+			<param name="reference_pointclouds_database_folder_path" type="str" value="$(arg reference_pointclouds_database_folder_path)" />
 			<param name="reference_pointclouds/reference_pointcloud_filename" type="str" value="$(arg reference_pointcloud_filename)" />
 			<param name="reference_pointclouds/reference_pointcloud_preprocessed_save_filename" type="str" value="$(arg reference_pointcloud_preprocessed_save_filename)" />
 			<param name="reference_pointclouds/reference_pointcloud_type" type="str" value="$(arg reference_pointcloud_type)" />

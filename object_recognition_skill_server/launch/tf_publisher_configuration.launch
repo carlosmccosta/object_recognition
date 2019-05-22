@@ -14,7 +14,8 @@
 
 	<!-- tf configurations -->
 	<arg name="publish_initial_pose" default="true" />
-	<arg name="publish_pose_tf_rate" default="-1.0" />
+	<arg name="publish_pose_tf_rate" default="5.0" />
+	<arg name="update_transform_timestamp_when_republishing_tf_" default="false" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
 	<arg name="invert_tf_transform" default="true" />
 	<arg name="invert_tf_hierarchy" default="true" />
@@ -32,6 +33,7 @@
 
 	<group ns="$(arg namespace)" clear_params="true">
 		<param name="publish_rate" type="double" value="$(arg publish_pose_tf_rate)" />
+		<param name="publish_rate" type="bool" value="$(arg update_transform_timestamp_when_republishing_tf_)" />
 		<param name="tf_lookup_timeout" type="double" value="1.5" />
 		<param name="publish_last_pose_tf_timeout_seconds" type="double" value="$(arg publish_last_pose_tf_timeout_seconds)" />
 		<param name="pose_with_covariance_stamped_topic" type="str" value="$(arg pose_with_covariance_stamped_topic)" /> <!-- rviz topic -->
