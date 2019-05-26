@@ -63,11 +63,11 @@
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 
 	<!-- reference map data -->
-	<arg name="reference_pointclouds_database_folder_path" default="$(find object_recognition_fasten_dataset)/models/" />
-	<arg name="reference_pointcloud_filename" default="embraer/reinforced_bracket__0.1mm_sag_0.5mm_step_meters.ply" />
+	<arg name="reference_pointclouds_database_folder_path" default="$(find object_recognition_skill_server)/models/" />
+	<arg name="reference_pointcloud_filename" default="" />
 	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
-	<arg name="reference_pointcloud_available" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	<arg name="reference_pointcloud_available" default="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="reference_pointcloud_available" default="true" if="$(eval bool(reference_pointcloud_filename))" />
+	<arg name="reference_pointcloud_available" default="false" unless="$(eval bool(reference_pointcloud_filename))" />
 	<arg name="reference_pointcloud_required" default="true" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="reference_pointcloud_required" default="false" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="reference_pointcloud_type" default="3D" />
