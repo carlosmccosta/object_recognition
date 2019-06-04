@@ -54,7 +54,7 @@
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
 
-	<arg name="publish_pose_tf_rate" default="-1.0" />
+	<arg name="publish_pose_tf_rate" default="5.0" />
 
 	<!-- configurations -->
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
