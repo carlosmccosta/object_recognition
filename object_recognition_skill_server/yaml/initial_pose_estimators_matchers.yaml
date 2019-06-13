@@ -48,7 +48,7 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 120.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 1.2
+            convergence_time_limit_seconds: 2.2
             max_correspondence_distance: 0.07
             transformation_epsilon: 1e-5
             euclidean_fitness_epsilon: 1e-6
