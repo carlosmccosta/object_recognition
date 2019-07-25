@@ -17,7 +17,7 @@
 	<arg name="publish_pose_tf_rate" default="5.0" />
 	<arg name="update_transform_timestamp_when_republishing_tf" default="false" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
-	<arg name="invert_tf_transform" default="true" />
+	<arg name="invert_tf_transform" default="false" />
 	<arg name="invert_tf_hierarchy" default="true" />
 	<arg name="transform_pose_to_object_frame_id" default="false" />
 

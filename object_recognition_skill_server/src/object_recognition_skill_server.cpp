@@ -37,22 +37,28 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	feedback_ = object_recognition_skill_msgs::ObjectRecognitionSkillFeedback();
 	result_ = object_recognition_skill_msgs::ObjectRecognitionSkillResult();
 
-	if (object_pose_estimator_.referencePointCloudRequired() && ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded())) {
+	if (object_pose_estimator_.ambientPointcloudIntegrationActive()) {
+		object_pose_estimator_.setAmbientPointcloudIntegrationFiltersPreprocessedPointcloudSaveFilename(_goal->objectModel);
+	} else if (object_pose_estimator_.referencePointCloudRequired() && object_pose_estimator_.getMapUpdateMode() == dynamic_robot_localization::Localization<DRLPointType>::MapUpdateMode::NoIntegration && ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded())) {
 		publihGoalAborted("Missing reference point cloud");
 		return;
 	}
 
 	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
-	if (!clustering_module_parameter_server_namespace_.empty() && clustering_module_parameter_server_namespace_.back() != '/')
-		clustering_module_parameter_server_namespace_ += "/";
-
-	private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
-	private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
+	if (!clustering_module_parameter_server_namespace_.empty()) {
+		if (private_node_handle_->hasParam(clustering_module_parameter_server_namespace_)) {
+			if (clustering_module_parameter_server_namespace_.back() != '/') {
+				clustering_module_parameter_server_namespace_ += "/";
+			}
+			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
+			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
+		}
+	}
 
 	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status = dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation;
 	ros::Rate rate(10);
 
-	for (int i = 0; i < number_of_recognition_retries_; ++i) {
+	for (int i = 0; i < number_of_recognition_retries_ + 1; ++i) {
 		object_pose_estimator_.setupInitialPose();
 		object_pose_estimator_.restartProcessingSensorData();
 

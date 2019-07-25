@@ -1,0 +1,18 @@
+filters:
+    publish_pointclouds_only_if_there_is_subscribers: false
+    ambient_pointcloud_integration_filters_preprocessed_pointcloud_save_filename: 'ambient_pointcloud.ply'
+    ambient_pointcloud_integration_filters_map_frame:
+        1_random_sample:
+            number_of_random_samples: 30000
+            invert_sampling: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample_integration'
+        2_euclidean_clustering:
+            cluster_tolerance: 0.04
+            min_cluster_size: 1000
+            filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
+            min_cluster_index: 0
+            max_cluster_index: 1
+            cluster_selector:
+                sorting_algorithm: "MaxClusterSizeSorter" # Available sorters: [ MinClusterSizeSorter | MaxClusterSizeSorter | MinDistanceToOriginSorter | MaxDistanceToOriginSorter | MinAxisValueSorter | MaxAxisValueSorter ]
+                sorting_axis: "Y" # Available axis: [ X | Y | Z ] -> only used with [ MinAxisValueSorter | MaxAxisValueSorter ]
+                clusters_colored_cloud_publish_topic: 'filtered_pointcloud_clusters_colored'

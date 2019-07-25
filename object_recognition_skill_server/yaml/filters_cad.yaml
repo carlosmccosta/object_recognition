@@ -1,7 +1,7 @@
 filters:
     ambient_pointcloud_filters_after_normal_estimation:
         5_euclidean_clustering:
-            cluster_tolerance: 0.017
+            cluster_tolerance: 0.015
             min_cluster_size: 100
             filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
             cluster_selector:

@@ -11,12 +11,13 @@ message_management:
     max_seconds_ambient_pointcloud_age: 30.0
     use_odom_when_transforming_cloud_to_map_frame: false
     invert_cloud_to_map_transform: false
-    invert_registration_transformation: false
+    invert_registration_transformation: true
     invert_initial_poses_from_msgs: false
     initial_pose_msg_needs_to_be_in_map_frame: false
-    minimum_number_of_points_in_ambient_pointcloud: 300
+    minimum_number_of_points_in_ambient_pointcloud: 100
     circular_buffer_clear_inserted_points_if_registration_fails: false
     limit_of_pointclouds_to_process: 1
+    use_base_link_frame_when_publishing_registration_pose: true
     use_base_link_frame_when_publishing_initial_poses_array: false
     apply_cloud_registration_inverse_to_initial_poses_array: false
     localization_detailed_use_millimeters_in_root_mean_square_error_inliers: true
@@ -32,8 +33,9 @@ general_configurations:
 
 reference_pointclouds:
     republish_reference_pointcloud_after_successful_registration: true
-    save_reference_pointclouds_in_binary_format: false
+    save_reference_pointclouds_in_binary_format: true
     normalize_normals: true
+    use_incremental_map_update: false
 
 publish_topic_names:
     publish_filtered_pointcloud_only_if_there_is_subscribers: false
