@@ -3,7 +3,7 @@ filters:
     ambient_pointcloud_integration_filters_preprocessed_pointcloud_save_filename: 'ambient_pointcloud.ply'
     ambient_pointcloud_integration_filters_map_frame:
         1_random_sample:
-            number_of_random_samples: 30000
+            number_of_random_samples: 100000
             invert_sampling: false
             filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample_integration'
         2_euclidean_clustering:
