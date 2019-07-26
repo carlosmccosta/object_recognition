@@ -68,8 +68,9 @@
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
 	<arg name="number_of_recognition_retries" default="0" if="$(arg use_cloud_storage_mode)"/>
 	<arg name="number_of_recognition_retries" default="5" unless="$(arg use_cloud_storage_mode)"/>
-	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_euclidean_clustering/cluster_selector/" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_euclidean_clustering/cluster_selector/" if="$(eval load_initial_pose_estimation_pipeline_using_cloud_matching and not use_cloud_storage_mode)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/5_region_growing/cluster_selector/" if="$(eval not load_initial_pose_estimation_pipeline_using_cloud_matching and not use_cloud_storage_mode)" />
+	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_integration_filters_map_frame/2_euclidean_clustering/cluster_selector/" if="$(arg use_cloud_storage_mode)" />
 
 	<!-- reference map data -->
 	<arg name="reference_pointclouds_database_folder_path" default="$(find object_recognition_skill_server)/models/" />
