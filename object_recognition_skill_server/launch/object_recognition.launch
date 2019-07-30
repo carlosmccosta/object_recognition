@@ -26,14 +26,14 @@
 
 	<!-- 3d processing pipeline parameters -->
 	<arg name="use_cloud_storage_mode" default="false" />
-	<arg name="use_feature_matching" default="true" />
+	<arg name="use_feature_matching_for_initial_alignment" default="true" />
+	<arg name="use_pca_for_initial_alignment" default="false" />
 	<arg name="load_initial_pose_estimation_pipeline_using_cloud_matching" default="true" />
-	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="false" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="true" unless="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="true" if="$(eval use_pca_for_initial_alignment)" />
+	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="false" if="$(eval not use_pca_for_initial_alignment and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 	<arg name="load_tracking_pipeline" default="false" />
 	<arg name="compute_normals_when_tracking_pose" default="false" />
 	<arg name="compute_keypoints_when_tracking_pose" default="false" />
-	
 
 	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
@@ -54,10 +54,13 @@
 	<arg name="yaml_configuration_recovery_filename" default="$(find object_recognition_skill_server)/yaml/pose_recovery.yaml" />
 	<arg name="yaml_configuration_custom_filename" default="" /> <!-- extra custom configurations loaded last -->
 
+	<!-- tfs -->
 	<arg name="feature_matching_publish_tf" default="true" />
 	<arg name="feature_matching_tf_broadcaster_frame_id_suffix" default="feature_matching" />
+	<arg name="pca_matching_publish_tf" default="true" />
+	<arg name="pca_tf_broadcaster_frame_id_suffix" default="pca_matching" />
 	<arg name="point_matcher_intermediate" default="1_iterative_closest_point_with_normals" />
-	<arg name="point_matcher_final" default="2_iterative_closest_point" />
+	<arg name="point_matcher_final" default="2_iterative_closest_point_with_normals" />
 	<arg name="point_matching_publish_tf" default="true" />
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />
@@ -78,8 +81,7 @@
 	<arg name="reference_pointcloud_preprocessed_save_filename" default="" />
 	<arg name="reference_pointcloud_available" default="true" if="$(eval bool(reference_pointcloud_filename))" />
 	<arg name="reference_pointcloud_available" default="false" unless="$(eval bool(reference_pointcloud_filename))" />
-	<arg name="reference_pointcloud_required" default="true" if="$(eval load_initial_pose_estimation_pipeline_using_cloud_matching and not use_cloud_storage_mode)" />
-	<arg name="reference_pointcloud_required" default="false" if="$(eval not load_initial_pose_estimation_pipeline_using_cloud_matching or use_cloud_storage_mode)" />
+	<arg name="reference_pointcloud_required" default="$(eval (use_pca_for_initial_alignment or use_feature_matching_for_initial_alignment or load_initial_pose_estimation_pipeline_using_cloud_matching or bool(yaml_configuration_outlier_detectors_filename)) and not use_cloud_storage_mode)" />
 	<arg name="reference_pointcloud_type" default="3D" />
 	<arg name="reference_pointcloud_update_mode" default="NoIntegration" />
 	<arg name="reference_pointcloud_keypoints_filename" default="" />
@@ -119,46 +121,58 @@
 			<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" if="$(eval bool(yaml_configuration_configs_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_roi_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename))" />
-			<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_curvature_estimators_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
 			<rosparam command="load" file="$(arg yaml_configuration_custom_filename)" subst_value="true" if="$(eval bool(yaml_configuration_custom_filename))" />
 
 			<group if="$(arg use_cloud_storage_mode)" >
 				<rosparam command="load" file="$(arg yaml_configuration_filters_ambient_pointcloud_integration_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_ambient_pointcloud_integration_filename))" />
 			</group>
 
-			<group unless="$(arg use_cloud_storage_mode)" >
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(eval load_initial_pose_estimation_pipeline_using_cloud_matching and use_feature_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" if="$(eval load_initial_pose_estimation_pipeline_using_cloud_matching and not use_feature_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-
-				<group if="$(arg use_feature_matching)">
+			<group unless="$(arg use_cloud_storage_mode)">
+				<group if="$(arg use_feature_matching_for_initial_alignment)">
 					<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_filename" type="str" value="$(arg reference_pointcloud_keypoints_filename)" />
 					<param name="keypoint_detectors/reference_pointcloud/reference_pointcloud_keypoints_save_filename" type="str" value="$(arg reference_pointcloud_keypoints_save_filename)" />
 					<param name="keypoint_detectors/ambient_pointcloud/compute_keypoints_when_tracking_pose" type="bool" value="$(arg compute_keypoints_when_tracking_pose)" />
 					<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_filename" type="str" value="$(arg reference_pointcloud_descriptors_filename)" />
 					<param name="initial_pose_estimators_matchers/feature_matchers/reference_pointcloud_descriptors_save_filename" type="str" value="$(arg reference_pointcloud_descriptors_save_filename)" />
-					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/publish_tf" type="bool" value="$(arg feature_matching_publish_tf)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/publish_tf" type="bool" value="$(arg feature_matching_publish_tf)" />
+					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" />
+					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" />
+					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" />
 
-					<rosparam command="load" file="$(arg yaml_configuration_keypoint_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_keypoint_detectors_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_feature_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_feature_matchers_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
+					<rosparam command="load" file="$(arg yaml_configuration_keypoint_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_keypoint_detectors_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_feature_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_feature_matchers_filename))" />
+				</group>
+
+				<group if="$(arg load_initial_pose_estimation_pipeline_using_pca)">
+					<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_pca_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_matchers_pca_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_matchers_pca_filename))" />
+
+					<param name="initial_pose_estimators_matchers/point_matchers/0_principal_component_analysis/compute_offset_to_reference_pointcloud_pca" type="bool" value="$(arg use_pca_for_initial_alignment)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/0_principal_component_analysis/tf_publisher/publish_tf" type="bool" value="$(arg pca_matching_publish_tf)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/0_principal_component_analysis/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/0_principal_component_analysis/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg pca_tf_broadcaster_frame_id_suffix)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/0_principal_component_analysis/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg pca_tf_broadcaster_frame_id_suffix)" />
+				</group>
+
+				<group if="$(arg load_initial_pose_estimation_pipeline_using_cloud_matching)">
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" if="$(eval use_feature_matching_for_initial_alignment)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg pca_tf_broadcaster_frame_id_suffix)" if="$(eval load_initial_pose_estimation_pipeline_using_pca)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg base_link_frame_id)" if="$(eval not use_feature_matching_for_initial_alignment and not use_pca_for_initial_alignment)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" />
+
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/publish_tf" type="bool" value="$(arg point_matching_publish_tf)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" />
+
+					<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_curvature_estimators_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_filters_cad_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_cad_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_point_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_point_matchers_filename))" />
 				</group>
 
 				<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_filename))" />
-				<rosparam command="load" file="$(arg yaml_configuration_filters_cad_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_cad_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<rosparam command="load" file="$(arg yaml_configuration_filters_pca_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_pca_filename) and load_initial_pose_estimation_pipeline_using_pca)" />
-				<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_point_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_point_matchers_filename) and load_initial_pose_estimation_pipeline_using_cloud_matching)" />
-				<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_matchers_pca_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_matchers_pca_filename) and load_initial_pose_estimation_pipeline_using_pca)" />
 				<rosparam command="load" file="$(arg yaml_configuration_outlier_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_outlier_detectors_filename))" />
 				<rosparam command="load" file="$(arg yaml_configuration_transformation_validators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_transformation_validators_filename))" />
 				<rosparam command="load" file="$(arg yaml_configuration_tracking_filename)" subst_value="true" if="$(eval bool(yaml_configuration_tracking_filename) and load_tracking_pipeline)" />
