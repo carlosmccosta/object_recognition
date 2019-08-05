@@ -5,10 +5,18 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Status1
         - /TF1/Frames1
-        - /Object recognition1
-      Splitter Ratio: 0.492063493
-    Tree Height: 634
+        - /Cloud storage1
+        - /Cloud registration1
+        - /Cloud registration1/Filtering1
+        - /Cloud registration1/Filtering1/Plane segmentation1
+        - /Cloud registration1/Initial alignment1
+        - /Cloud registration1/Initial alignment1/Feature matching1
+        - /Cloud registration1/ICP alignment1
+        - /Cloud registration1/Reference point cloud1
+      Splitter Ratio: 0.674556196
+    Tree Height: 1205
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -21,29 +29,23 @@ Panels:
   - Class: rviz/Views
     Expanded:
       - /Current View1
-      - /Current View1/Focal Point1
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Clusters selected
+    SyncSource: voxel_grid
+Toolbars:
+  toolButtonStyle: 2
 Visualization Manager:
   Class: ""
   Displays:
-    - Class: rviz/Axes
-      Enabled: true
-      Length: 0.0199999996
-      Name: Axes
-      Radius: 0.00150000001
-      Reference Frame: <Fixed Frame>
-      Value: true
-    - Alpha: 1
-      Cell Size: 0.0500000007
+    - Alpha: 0.5
+      Cell Size: 0.100000001
       Class: rviz/Grid
-      Color: 81; 122; 122
-      Enabled: true
+      Color: 160; 160; 164
+      Enabled: false
       Line Style:
         Line Width: 0.0299999993
         Value: Lines
@@ -56,16 +58,16 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
-      Value: true
+      Value: false
     - Alpha: 0.5
       Cell Size: 1
       Class: rviz/Grid
       Color: 255; 0; 0
-      Enabled: true
+      Enabled: false
       Line Style:
         Line Width: 0.0299999993
         Value: Lines
-      Name: Grid M
+      Name: GridM
       Normal Cell Count: 0
       Offset:
         X: 0
@@ -74,10 +76,40 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
+      Value: false
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 0.34973681
+        Min Value: -5.39904499
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 255
+      Min Color: 0; 0; 0
+      Min Intensity: 17
+      Name: Sensor data
+      Position Transformer: XYZ
+      Queue Size: 1
+      Selectable: true
+      Size (Pixels): 1
+      Size (m): 0.00999999978
+      Style: Points
+      Topic: /camera/depth_registered/points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
       Value: true
     - Class: rviz/TF
       Enabled: true
-      Frame Timeout: 1e+09
+      Frame Timeout: 100000000
       Frames:
         All Enabled: false
         camera_link:
@@ -87,56 +119,48 @@ Visualization Manager:
         map:
           Value: false
         map_corrected:
-          Value: true
+          Value: false
         object:
+          Value: true
+        object__feature_matching:
+          Value: true
+        object__intermediate_point_matching:
+          Value: true
+        object__pca_matching:
+          Value: true
+        object__point_matching:
           Value: true
         sensor_frame:
           Value: false
-      Marker Scale: 0.200000003
+      Marker Scale: 0.300000012
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
+        camera_link:
+          object:
+            {}
+          object__feature_matching:
+            object__intermediate_point_matching:
+              object__point_matching:
+                {}
+          object__pca_matching:
+            {}
+          sensor_frame:
+            {}
         map:
           map_corrected:
             camera_link_optical:
-              camera_link:
-                object:
-                  {}
-                sensor_frame:
-                  {}
+              {}
       Update Interval: 0
       Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 0.081196785
-        Min Value: -0.0690456629
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: RGB8
-      Decay Time: 0
+    - Class: rviz/Axes
       Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Max Intensity: 4096
-      Min Color: 0; 0; 0
-      Min Intensity: 0
-      Name: Sensor data
-      Position Transformer: XYZ
-      Queue Size: 1
-      Selectable: true
-      Size (Pixels): 1
-      Size (m): 0.000500000024
-      Style: Points
-      Topic: /camera/depth_registered/points
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
+      Length: 0.200000003
+      Name: Axes
+      Radius: 0.00999999978
+      Reference Frame: <Fixed Frame>
       Value: false
     - Class: rviz/Group
       Displays:
@@ -149,27 +173,27 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 0; 170; 0
-          Color Transformer: RGB8
+          Color: 255; 170; 0
+          Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: Reference point cloud with curvature
+          Name: voxel_grid
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 4
+          Size (Pixels): 3
           Size (m): 0.00999999978
           Style: Points
-          Topic: /object_recognition/reference_pointcloud
+          Topic: /object_recognition/filtered_pointcloud_voxel_grid_integration
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -179,7 +203,7 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 255; 85; 0
+          Color: 0; 255; 255
           Color Transformer: FlatColor
           Decay Time: 0
           Enabled: false
@@ -188,14 +212,14 @@ Visualization Manager:
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: Reference point cloud keypoints
+          Name: random_sample
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
-          Size (Pixels): 2
-          Size (m): 0.00400000019
-          Style: Spheres
-          Topic: /object_recognition/reference_keypoints
+          Size (Pixels): 3
+          Size (m): 0.00999999978
+          Style: Points
+          Topic: /object_recognition/filtered_pointcloud_random_sample_integration
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -218,209 +242,29 @@ Visualization Manager:
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: Sensor data cropbox
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 2
-          Size (m): 0.00499999989
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_cropbox
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 0.0921050236
-            Min Value: 0.00200060941
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 0; 85; 255
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Voxel grid
+          Name: radius_outlier_removal
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_voxel_grid
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: RandomSample1
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_random_sample
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 0; 170; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Plane segmentation inliers
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_plane_segmentation_inliers
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Plane segmentation inliers convex hull
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00749999983
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_plane_segmentation_inliers_convex_hull
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Plane segmentation
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00200000009
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_plane_segmentation
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 0.0886791274
-            Min Value: 0.00200060941
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: RadiusOutlierRemoval
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
+          Size (m): 0.00999999978
+          Style: Points
           Topic: /object_recognition/filtered_pointcloud_radius_outlier_removal
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
           Value: false
-        - Alpha: 0.699999988
+        - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
-            Max Value: 0.0886791274
-            Min Value: 0.00207760837
+            Max Value: 10
+            Min Value: -10
             Value: true
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
+          Color: 255; 85; 127
+          Color Transformer: FlatColor
           Decay Time: 0
           Enabled: false
           Invert Rainbow: false
@@ -428,13 +272,13 @@ Visualization Manager:
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: StatisticalOutlierRemoval
+          Name: statistical_outlier_removal
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
+          Size (m): 0.00999999978
+          Style: Points
           Topic: /object_recognition/filtered_pointcloud_statistical_outlier_removal
           Unreliable: false
           Use Fixed Frame: true
@@ -449,8 +293,8 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 255; 0; 0
-          Color Transformer: FlatColor
+          Color: 255; 255; 255
+          Color Transformer: RGB8
           Decay Time: 0
           Enabled: false
           Invert Rainbow: false
@@ -458,14 +302,14 @@ Visualization Manager:
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: RandomSample2
+          Name: clustering
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_random_sample_2
+          Size (m): 0.00999999978
+          Style: Points
+          Topic: /object_recognition/filtered_pointcloud_clusters_colored
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
@@ -479,8 +323,8 @@ Visualization Manager:
           Axis: Z
           Channel Name: intensity
           Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
+          Color: 170; 255; 0
+          Color Transformer: FlatColor
           Decay Time: 0
           Enabled: true
           Invert Rainbow: false
@@ -488,341 +332,609 @@ Visualization Manager:
           Max Intensity: 4096
           Min Color: 0; 0; 0
           Min Intensity: 0
-          Name: Clusters colored
+          Name: cluster_selected
           Position Transformer: XYZ
           Queue Size: 10
           Selectable: true
           Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_clusters_colored
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: true
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Clusters selected
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00499999989
-          Style: Spheres
+          Size (m): 0.00999999978
+          Style: Points
           Topic: /object_recognition/filtered_pointcloud_clustering
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
           Value: true
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 0; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: RandomSample3
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud_random_sample_3
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 0.0892726481
-            Min Value: 0.00206762552
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 0; 149; 223
-          Color Transformer: RGB8
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Filtered cloud curvature
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 0.699999988
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 0.0892726481
-            Min Value: 0.00206762552
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 85; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Filtered cloud
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/filtered_pointcloud
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 0; 85; 255
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Keypoints
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 5
-          Size (m): 0.00600000005
-          Style: Spheres
-          Topic: /object_recognition/ambient_keypoints
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Arrow Length: 0.0500000007
-          Axes Length: 0.300000012
-          Axes Radius: 0.00999999978
-          Class: rviz/PoseArray
-          Color: 255; 25; 0
-          Enabled: false
-          Head Length: 0.00999999978
-          Head Radius: 0.00999999978
-          Name: Initial pose estimation
-          Shaft Length: 0.0199999996
-          Shaft Radius: 0.00300000003
-          Shape: Arrow (3D)
-          Topic: /object_recognition/localization_initial_pose_estimations
-          Unreliable: false
-          Value: false
-        - Alpha: 0.899999976
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 170; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Initial alignment reference cloud
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/initial_alignment_reference_cloud
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 0.899999976
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 170; 170; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Intermediate alignment reference cloud
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00300000003
-          Style: Spheres
-          Topic: /object_recognition/intermediate_alignment_reference_cloud
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 80; 241; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: Final alignment reference cloud
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00400000019
-          Style: Spheres
-          Topic: /object_recognition/final_alignment_reference_cloud
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 85; 255; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: PointCloud2 inliers
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00999999978
-          Style: Points
-          Topic: /object_recognition/aligned_pointcloud_inliers
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: true
-          Autocompute Value Bounds:
-            Max Value: 10
-            Min Value: -10
-            Value: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz/PointCloud2
-          Color: 255; 0; 0
-          Color Transformer: FlatColor
-          Decay Time: 0
-          Enabled: false
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 4096
-          Min Color: 0; 0; 0
-          Min Intensity: 0
-          Name: PointCloud2 outliers
-          Position Transformer: XYZ
-          Queue Size: 10
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.00999999978
-          Style: Points
-          Topic: /object_recognition/aligned_pointcloud_outliers
-          Unreliable: false
-          Use Fixed Frame: true
-          Use rainbow: true
-          Value: false
       Enabled: true
-      Name: Object recognition
+      Name: Cloud storage
+    - Class: rviz/Group
+      Displays:
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 170; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: cropbox
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 2
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_cropbox
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 255; 127
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: random_sample_1
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_random_sample
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Class: rviz/Group
+              Displays:
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 208; 208; 0
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: true
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: plane_segmentation_inliers
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 3
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/filtered_pointcloud_plane_segmentation_inliers
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: true
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 170; 255; 0
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: false
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: plane_segmentation
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 3
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/filtered_pointcloud_plane_segmentation
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: false
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 85; 255; 0
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: false
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: plane_segmentation_convex_hull
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 10
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/filtered_pointcloud_plane_segmentation_inliers_convex_hull
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: false
+              Enabled: true
+              Name: Plane segmentation
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 255; 127
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: random_sample_2
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_random_sample_2
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 0; 255; 127
+              Color Transformer: RGB8
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: clustering
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_clusters_colored
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 170; 255; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: cluster_selected
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_clustering
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 85; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: random_sample_3
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 4
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_random_sample_3
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+          Enabled: true
+          Name: Filtering
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 52; 130; 255
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: pca_matching
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 4
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/pca_alignment_reference_cloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Class: rviz/Group
+              Displays:
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 85; 255; 0
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: false
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: reference_keypoints
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 10
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/reference_pointcloud_keypoints
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: false
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 255; 85; 127
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: false
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: sensor_keypoints
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 10
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/ambient_keypoints
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: false
+                - Alpha: 1
+                  Arrow Length: 0.300000012
+                  Axes Length: 0.300000012
+                  Axes Radius: 0.00999999978
+                  Class: rviz/PoseArray
+                  Color: 255; 25; 0
+                  Enabled: false
+                  Head Length: 0.0299999993
+                  Head Radius: 0.0299999993
+                  Name: Initial pose estimation
+                  Shaft Length: 0.100000001
+                  Shaft Radius: 0.00999999978
+                  Shape: Arrow (3D)
+                  Topic: /object_recognition/localization_initial_pose_estimations
+                  Unreliable: false
+                  Value: false
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
+                  Color: 177; 118; 0
+                  Color Transformer: FlatColor
+                  Decay Time: 0
+                  Enabled: true
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: feature_matching
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 3
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/initial_alignment_reference_cloud
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: true
+              Enabled: true
+              Name: Feature matching
+          Enabled: true
+          Name: Initial alignment
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 170; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: intermediate_alignment
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/intermediate_alignment_reference_cloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 85; 255; 127
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: final_alignment
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 5
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/final_alignment_reference_cloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+          Enabled: true
+          Name: ICP alignment
+        - Class: rviz/Group
+          Displays:
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: RGB8
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: reference_pointcloud
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/reference_pointcloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 170; 255; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: aligned inliers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 5
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/aligned_pointcloud_inliers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 0; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: aligned outliers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 5
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/aligned_pointcloud_outliers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: true
+          Enabled: false
+          Name: Reference point cloud
+      Enabled: true
+      Name: Cloud registration
   Enabled: true
   Global Options:
-    Background Color: 0; 0; 0
+    Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: camera_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -843,41 +955,41 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.745712578
+      Distance: 1.01541877
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.036657203
-        Y: 0.190668136
-        Z: 0.0437257253
+        X: 0.28426978
+        Y: 0.0631109923
+        Z: -0.0426412523
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.19979668
+      Pitch: -0.754796505
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.000698088668
+      Yaw: 2.87341714
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1056
-  Hide Left Dock: true
+  Height: 1416
+  Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001ef0000051dfc020000001ffb0000001200530065006c0065006300740069006f006e000000004a0000051d0000006f00fffffffb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000100049006d00610067006500200069007200000001390000010e0000000000000000fb000000100049006d0061006700650020006900720100000353000000af0000000000000000fb000000100049006d0061006700650020004900520000000335000000cd0000000000000000fb0000001a0043006f006e0066006900640065006e00630065004d006100700000000041000002050000000000000000fb00000012004e006f0072006d0061006c004d006100700000000290000000a00000000000000000fb0000000e00540065007800740075007200650000000041000001e90000000000000000fb000000100049006d00610067006500520047004200000000410000006a0000000000000000fb000000140049006d006100670065004400650070007400680000000041000000870000000000000000fb000000100049006d00610067006500490052003100000000410000009d0000000000000000fb000000100049006d00610067006500490052003200000000e4000000a40000000000000000fb000000180049006d006100670065004300680041007200750063006f01000002c0000001420000000000000000fb000000220049006d006100670065004300680061007200750063006f0043006f006c006f00720100000041000001d60000000000000000fb0000001c0049006d00610067006500490052004300680061007200750063006f0000000148000000d80000000000000000fb0000001e0049006d006100670065004300680061007200750063006f004900520031000000026b000000cb0000000000000000fb0000001e0049006d006100670065004300680061007200750063006f004900520032000000033c000000c60000000000000000fb000000140049006d0061006700650043006f006c006f007200000000410000012b0000000000000000fb000000180049006d0061006700650043006f006c006f0072004800440000000247000000f70000000000000000fb000000140049006d006100670065004400650070007400680000000372000000900000000000000000fb0000000e0049006d00610067006500490052020000000a00000073000003e500000310fb000000220049006d006100670065004300680061007200750063006f0043006f006c006f00720000000041000001a90000000000000000fb000000140049006d0061006700650044006500700074006800000001b60000007c0000000000000000fb0000000e0049006d006100670065004900520200000066000000430000068f000003ddfb000000140049006d0061006700650043006f006c006f007200000001b6000000cc0000000000000000fb0000001c0049006d00610067006500490052004300680061007200750063006f02000003f0000000720000035f00000310fb000000220049006d0061006700650043006f006c006f0072004300680061007200750063006f010000021d000001e500000000000000000000000100000277000003c5fc0200000005fb000000100044006900730070006c0061007900730100000041000002bb000000f300fffffffb0000000a00560069006500770073010000030200000104000000bb00fffffffb0000001e0054006f006f006c002000500072006f00700065007200740069006500730000000332000000d00000006f00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007301000001be000002440000000000000000fb0000001200530065006c0065006300740069006f006e010000025a000000b20000000000000000000000020000078000000154fc0100000007fb000000120049006d00610067006500200052004700420100000000000001a80000000000000000fb000000160049006d00610067006500200044006500700074006801000001ae000001990000000000000000fb000000160049006d00610067006500200063006f006c006f00720100000000000003d50000000000000000fb000000160049006d00610067006500200064006500700074006801000003db000003a50000000000000000fb000000160049006d00610067006500200063006f006c006f0072010000034e000002370000000000000000fb000000160049006d006100670065002000640065007000740068010000058b000001f50000000000000000fb0000000a00560069006500770073030000004e00000080000002e100000197000000030000077e0000003efc0100000002fb0000000800540069006d006500000000000000077e0000027600fffffffb0000000800540069006d0065010000000000000450000000000000000000000503000003c500000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001e9000004fefc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006300fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000160049006d00610067006500200063006f006c006f0072010000004a000002210000000000000000fb0000001a0049006d0061006700650020006300680061007200750063006f0100000272000001250000000000000000fb000000160049006d006100670065002000640065007000740068010000039e000001aa000000000000000000000001000001fd0000051dfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fc0000004a0000051d000000fe01000020fa000000010100000002fb0000000a005600690065007700730100000000ffffffff0000011100fffffffb000000100044006900730070006c0061007900730100000867000001560000017900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009bd0000003efc0100000002fb0000000800540069006d00650000000000000009bd0000038300fffffffb0000000800540069006d00650100000000000004500000000000000000000007fc0000051d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
-    collapsed: true
+    collapsed: false
   Time:
     collapsed: false
   Tool Properties:
     collapsed: false
   Views:
     collapsed: false
-  Width: 1920
+  Width: 2560
   X: 0
   Y: 24

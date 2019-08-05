@@ -1,16 +1,6 @@
 filters:
     ambient_pointcloud_filters_after_normal_estimation:
-        2_radius_outlier_removal:
-            radius_search: 0.012
-            min_neighbors_in_radius: 30
-            invert_removal: false
-            filtered_cloud_publish_topic: 'filtered_pointcloud_radius_outlier_removal'
-        3_statistical_outlier_removal:
-            number_of_neighbors_for_mean_distance_estimation: 30
-            standard_deviation_multiplier: 0.6
-            invert_selection: false
-            filtered_cloud_publish_topic: 'filtered_pointcloud_statistical_outlier_removal'
-        5_region_growing:
+        4_region_growing:
             use_pointcloud_rgb_information: false                   # If true, [pcl::RegionGrowingRGB] will be used. Otherwise [pcl::RegionGrowing]
             min_cluster_size: 100                                   # Regions with less than [min_cluster_size] will be discarded
             max_cluster_size: 2147483647                            # std::numeric_limits<int>::max()

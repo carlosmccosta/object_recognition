@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find object_recognition_skill_server)/rviz/rviz.rviz" respawn="false" clear_params="true" output="screen" />
+	<node name="rviz_object_recognition" pkg="rviz" type="rviz" args="-d $(find object_recognition_skill_server)/rviz/rviz.rviz" respawn="false" clear_params="true" output="screen" />
 </launch>

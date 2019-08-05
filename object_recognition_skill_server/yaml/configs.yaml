@@ -32,7 +32,7 @@ general_configurations:
     publish_tf_map_odom: true
 
 reference_pointclouds:
-    republish_reference_pointcloud_after_successful_registration: true
+    republish_reference_pointcloud_after_successful_registration: false
     save_reference_pointclouds_in_binary_format: true
     normalize_normals: true
     use_incremental_map_update: false

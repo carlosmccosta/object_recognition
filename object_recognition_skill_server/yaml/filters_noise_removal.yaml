@@ -1,0 +1,10 @@
+3_radius_outlier_removal:
+    radius_search: 0.012
+    min_neighbors_in_radius: 20
+    invert_removal: false
+    filtered_cloud_publish_topic: 'filtered_pointcloud_radius_outlier_removal'
+4_statistical_outlier_removal:
+    number_of_neighbors_for_mean_distance_estimation: 20
+    standard_deviation_multiplier: 2.0
+    invert_selection: false
+    filtered_cloud_publish_topic: 'filtered_pointcloud_statistical_outlier_removal'

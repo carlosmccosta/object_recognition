@@ -1,0 +1,14 @@
+filters:
+    publish_pointclouds_only_if_there_is_subscribers: false
+    ambient_pointcloud_integration_filters_preprocessed_pointcloud_save_filename: 'ambient_pointcloud.ply'
+    ambient_pointcloud_integration_filters_map_frame:
+        1_voxel_grid:
+            leaf_size_x: 0.005
+            leaf_size_y: 0.005
+            leaf_size_z: 0.005
+            filter_limit_field_name: 'z'
+            filter_limit_min: -5.0
+            filter_limit_max: 5.0
+            downsample_all_data: true
+            save_leaf_layout: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_voxel_grid_integration'

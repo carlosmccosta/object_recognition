@@ -1,12 +1,12 @@
 # filters:
 #     ambient_pointcloud_custom_frame:
-#         custom_frame_id: 'camera_base_link'
+#         custom_frame_id: 'table'
 #         0_crop_box:
-#             box_min_x: 0.32
-#             box_min_y: -0.12
-#             box_min_z: -0.17
-#             box_max_x: 0.65
-#             box_max_y: 0.12
-#             box_max_z: 0.17
+#             box_min_x: -0.5
+#             box_min_y: -0.5
+#             box_min_z: 0.0
+#             box_max_x: 1.5
+#             box_max_y: 1.5
+#             box_max_z: 0.3
 #             invert_selection: false
-#             filtered_cloud_publish_topic: 'filtered_pointcloud_cropbox_camera_base_link'
+#             filtered_cloud_publish_topic: 'filtered_pointcloud_cropbox_table'
