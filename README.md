@@ -4,6 +4,8 @@ ROS package for estimating the 6 DoF pose of objects on top of a plane (in the f
 
 This package relies on [dynamic_robot_localization](https://github.com/carlosmccosta/dynamic_robot_localization) for point cloud filtering, segmentation and registration.
 
+Configuration of this package for correcting point cloud offsets available in the [pointcloud_registration](https://github.com/carlosmccosta/pointcloud_registration) repository.
+
 Presentation of 6 DoF pose estimation benchmarks available [here](https://www.dropbox.com/s/frnpqfj71omnet9/Scalable_RM_T4.5.pptx?dl=0).
 
 
