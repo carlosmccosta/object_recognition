@@ -15,7 +15,6 @@
 	<arg name="pose_with_covariance_stamped_topic" default="initial_pose" /> <!-- rviz topic -->
 	<arg name="pose_stamped_publish_topic" default="localization_pose" />
 	<arg name="ambient_pointcloud_topic" default="/camera/depth_registered/points" />
-	<arg name="sensor_provides_surface_normals" default="false" />
 
 	<!-- frame ids -->
 	<arg name="sensor_frame_id" default="camera_link" />
@@ -34,6 +33,7 @@
 	<arg name="use_voxel_grid" default="false" />
 	<arg name="use_random_sample" default="true" />
 	<arg name="use_noise_removal" default="false" />
+	<arg name="use_normal_estimation" default="true" />
 	<arg name="use_plane_segmentation" default="true" />
 	<arg name="use_region_growing_segmentation" default="false" />
 	<arg name="use_euclidean_clustering_segmentation" default="true" />
@@ -139,7 +139,7 @@
 			<rosparam command="load" file="$(arg yaml_configuration_filters_plane_segmentation_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_plane_segmentation_filename) and use_plane_segmentation)" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_euclidean_clustering_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_euclidean_clustering_filename) and use_euclidean_clustering_segmentation)" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_region_growing_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_region_growing_filename) and use_region_growing_segmentation)" />
-			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename) and not sensor_provides_surface_normals)" />
+			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename) and use_normal_estimation)" />
 			<rosparam command="load" file="$(arg yaml_configuration_custom_filename)" subst_value="true" if="$(eval bool(yaml_configuration_custom_filename))" />
 
 			<group if="$(arg use_cloud_storage_mode)" >
