@@ -7,7 +7,7 @@ filters:
             filtered_cloud_publish_topic: ''
     ambient_pointcloud_map_frame_feature_registration:
         2_random_sample:
-            number_of_random_samples: 30000
+            number_of_random_samples: 50000
             invert_sampling: false
             filtered_cloud_publish_topic: 'filtered_pointcloud_random_sample'
     ambient_pointcloud_filters_after_normal_estimation:

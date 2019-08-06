@@ -13,7 +13,7 @@ normal_estimators:
         compute_normals_when_recovering_pose_tracking: true
         compute_normals_when_estimating_initial_pose: true
         normal_estimation_omp:
-            search_k: 10
+            search_k: 7
             search_radius: 0.004
             display_normals: false
             normals_viewer:

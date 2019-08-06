@@ -112,28 +112,26 @@ Visualization Manager:
       Frame Timeout: 100000000
       Frames:
         All Enabled: false
-        base_link:
-          Value: true
+        camera_base:
+          Value: false
+        camera_base_link:
+          Value: false
         camera_link:
           Value: true
-        camera_link_optical:
+        camera_link_c:
           Value: false
-        map:
-          Value: false
-        map_corrected:
+        camera_optical_frame:
           Value: false
         object:
           Value: true
         object__feature_matching:
-          Value: true
+          Value: false
         object__intermediate_point_matching:
-          Value: true
+          Value: false
         object__point_matching:
-          Value: true
-        sensor_frame:
           Value: false
         tool0:
-          Value: true
+          Value: false
       Marker Scale: 0.300000012
       Name: TF
       Show Arrows: true
@@ -147,11 +145,12 @@ Visualization Manager:
             object__intermediate_point_matching:
               object__point_matching:
                 {}
-          sensor_frame:
-            {}
-        map:
-          map_corrected:
-            camera_link_optical:
+        tool0:
+          camera_optical_frame:
+            camera_base:
+              camera_base_link:
+                {}
+            camera_link_c:
               {}
       Update Interval: 0
       Value: true
@@ -389,6 +388,36 @@ Visualization Manager:
               Axis: Z
               Channel Name: intensity
               Class: rviz/PointCloud2
+              Color: 255; 0; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: voxel_grid
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 4
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_voxel_grid
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
               Color: 0; 255; 127
               Color Transformer: FlatColor
               Decay Time: 0
@@ -573,10 +602,10 @@ Visualization Manager:
               Axis: Z
               Channel Name: intensity
               Class: rviz/PointCloud2
-              Color: 170; 255; 0
+              Color: 255; 170; 0
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: false
+              Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -586,14 +615,14 @@ Visualization Manager:
               Position Transformer: XYZ
               Queue Size: 10
               Selectable: true
-              Size (Pixels): 3
+              Size (Pixels): 5
               Size (m): 0.00999999978
               Style: Points
               Topic: /object_recognition/filtered_pointcloud_clustering
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: false
+              Value: true
             - Alpha: 1
               Autocompute Intensity Bounds: true
               Autocompute Value Bounds:
@@ -606,7 +635,7 @@ Visualization Manager:
               Color: 255; 85; 0
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: true
+              Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -616,14 +645,14 @@ Visualization Manager:
               Position Transformer: XYZ
               Queue Size: 10
               Selectable: true
-              Size (Pixels): 4
+              Size (Pixels): 6
               Size (m): 0.00999999978
               Style: Points
               Topic: /object_recognition/filtered_pointcloud_random_sample_3
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: true
+              Value: false
           Enabled: true
           Name: Filtering
         - Class: rviz/Group
@@ -672,7 +701,7 @@ Visualization Manager:
                   Color: 255; 85; 127
                   Color Transformer: FlatColor
                   Decay Time: 0
-                  Enabled: false
+                  Enabled: true
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
                   Max Intensity: 4096
@@ -689,7 +718,7 @@ Visualization Manager:
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
-                  Value: false
+                  Value: true
                 - Alpha: 1
                   Arrow Length: 0.300000012
                   Axes Length: 0.300000012
@@ -700,7 +729,7 @@ Visualization Manager:
                   Head Length: 0.0299999993
                   Head Radius: 0.0299999993
                   Name: Initial pose estimation
-                  Shaft Length: 0.100000001
+                  Shaft Length: 0.0299999993
                   Shaft Radius: 0.00999999978
                   Shape: Arrow (3D)
                   Topic: /object_recognition/localization_initial_pose_estimations
@@ -818,7 +847,7 @@ Visualization Manager:
               Color: 255; 255; 255
               Color Transformer: RGB8
               Decay Time: 0
-              Enabled: false
+              Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -835,7 +864,7 @@ Visualization Manager:
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: false
+              Value: true
             - Alpha: 1
               Autocompute Intensity Bounds: true
               Autocompute Value Bounds:
@@ -848,7 +877,7 @@ Visualization Manager:
               Color: 85; 255; 0
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: false
+              Enabled: true
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -865,7 +894,7 @@ Visualization Manager:
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: false
+              Value: true
             - Alpha: 1
               Autocompute Intensity Bounds: true
               Autocompute Value Bounds:
@@ -926,7 +955,7 @@ Visualization Manager:
               Use Fixed Frame: true
               Use rainbow: true
               Value: true
-          Enabled: false
+          Enabled: true
           Name: Reference point cloud
       Enabled: true
       Name: Cloud registration
@@ -955,25 +984,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.01541877
+      Distance: 0.730882883
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.28426978
-        Y: 0.0631109923
-        Z: -0.0426412523
+        X: 0.345284551
+        Y: 0.0218217783
+        Z: -0.0174877774
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -0.754796505
+      Pitch: 0.175202429
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.87341714
+      Yaw: 2.88480568
     Saved: ~
 Window Geometry:
   Displays:

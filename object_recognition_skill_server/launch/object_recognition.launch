@@ -30,8 +30,8 @@
 	<arg name="use_random_sample_segmentation_in_cloud_storage_mode" default="true" />
 
 	<!-- 3d processing pipeline parameters for cloud registration -->
-	<arg name="use_voxel_grid" default="false" />
-	<arg name="use_random_sample" default="true" />
+	<arg name="use_voxel_grid" default="true" />
+	<arg name="use_random_sample" default="false" />
 	<arg name="use_noise_removal" default="false" />
 	<arg name="use_normal_estimation" default="true" />
 	<arg name="use_plane_segmentation" default="true" />
