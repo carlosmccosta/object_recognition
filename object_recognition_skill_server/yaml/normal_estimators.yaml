@@ -1,5 +1,6 @@
 normal_estimators:
     normalize_normals: true
+    colorize_pointcloud_with_curvatures: true
     # reference_pointcloud:
     #     display_normals: true
     #     use_filtered_cloud_as_normal_estimation_surface: true
