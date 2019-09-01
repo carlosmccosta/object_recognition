@@ -2,9 +2,9 @@ filters:
     publish_pointclouds_only_if_there_is_subscribers: false
     reference_pointcloud:
         1_voxel_grid:
-            leaf_size_x: 0.002
-            leaf_size_y: 0.002
-            leaf_size_z: 0.002
+            leaf_size_x: 0.0025
+            leaf_size_y: 0.0025
+            leaf_size_z: 0.0025
             filter_limit_field_name: 'z'
             filter_limit_min: -5.0
             filter_limit_max: 5.0
@@ -13,9 +13,9 @@ filters:
             filtered_cloud_publish_topic: ''
     ambient_pointcloud_map_frame_feature_registration:
         1_voxel_grid:
-            leaf_size_x: 0.002
-            leaf_size_y: 0.002
-            leaf_size_z: 0.002
+            leaf_size_x: 0.0025
+            leaf_size_y: 0.0025
+            leaf_size_z: 0.0025
             filter_limit_field_name: 'z'
             filter_limit_min: -5.0
             filter_limit_max: 5.0
