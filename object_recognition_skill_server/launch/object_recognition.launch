@@ -31,7 +31,7 @@
 
 	<!-- 3d processing pipeline parameters for cloud registration -->
 	<arg name="use_voxel_grid" default="true" />
-	<arg name="use_random_sample" default="false" />
+	<arg name="use_random_sample" default="true" />
 	<arg name="use_noise_removal" default="false" />
 	<arg name="use_normal_estimation" default="true" />
 	<arg name="use_plane_segmentation" default="true" />
@@ -43,6 +43,9 @@
 	<arg name="use_cloud_matching" default="true" />
 	<arg name="load_tracking_pipeline" default="false" />
 	<arg name="compute_keypoints_when_tracking_pose" default="false" />
+	<arg name="feature_matching_timeout_for_initial_alignment" default="2.2" />
+	<arg name="cloud_matching_timeout_for_intermediate_alignment" default="1.8" />
+	<arg name="cloud_matching_timeout_for_final_alignment" default="0.7" />
 
 	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
@@ -160,6 +163,7 @@
 					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg feature_matching_tf_broadcaster_frame_id_suffix)" />
 					<rosparam command="load" file="$(arg yaml_configuration_keypoint_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_keypoint_detectors_filename))" />
 					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_feature_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_feature_matchers_filename))" />
+					<param name="initial_pose_estimators_matchers/feature_matchers/matchers/sample_consensus_initial_alignment_prerejective/convergence_time_limit_seconds" type="double" value="$(arg feature_matching_timeout_for_initial_alignment)" />
 				</group>
 
 				<group if="$(arg load_initial_pose_estimation_pipeline_using_pca)">
@@ -186,6 +190,8 @@
 					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_point_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_point_matchers_filename))" />
 					<rosparam command="load" file="$(arg yaml_configuration_outlier_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_outlier_detectors_filename) and reference_pointcloud_required)" />
 					<rosparam command="load" file="$(arg yaml_configuration_transformation_validators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_transformation_validators_filename))" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate_ns)/convergence_time_limit_seconds" type="double" value="$(arg cloud_matching_timeout_for_intermediate_alignment)" />
+					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final_ns)/convergence_time_limit_seconds" type="double" value="$(arg cloud_matching_timeout_for_final_alignment)" />
 				</group>
 
 				<rosparam command="load" file="$(arg yaml_configuration_filters_voxel_grid_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_voxel_grid_filename) and use_voxel_grid)" />
