@@ -8,10 +8,11 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 50.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 1.8
             max_correspondence_distance: 0.07
-            transformation_epsilon: 1e-4
-            euclidean_fitness_epsilon: 1e-4
+            convergence_time_limit_seconds: 1.8
+            convergence_rotation_threshold: 0.99999 # cos_angle = 0.99999 -> 0.256 degrees
+            transformation_epsilon: 1e-8 # sum of squared translations offsets (between registrations)
+            euclidean_fitness_epsilon: 1e-6
             max_number_of_registration_iterations: 500
             max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.02
@@ -32,10 +33,11 @@ initial_pose_estimators_matchers:
             correspondence_estimation_normals_angle_filtering_threshold: 40.0
             correspondence_estimation_normals_angle_penalty_factor: 6.0
             # transformation_estimation_approach: 'TransformationEstimationPointToPlaneLLSWeighted'
-            convergence_time_limit_seconds: 0.7
             max_correspondence_distance: 0.015
-            transformation_epsilon: 1e-4
-            euclidean_fitness_epsilon: 1e-4
+            convergence_time_limit_seconds: 0.7
+            convergence_rotation_threshold: 0.99999 # cos_angle = 0.99999 -> 0.256 degrees
+            transformation_epsilon: 1e-8 # sum of squared translations offsets (between registrations)
+            euclidean_fitness_epsilon: 1e-6
             max_number_of_registration_iterations: 500
             max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.02
