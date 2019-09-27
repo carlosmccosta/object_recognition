@@ -43,7 +43,7 @@
 	<arg name="use_cloud_matching" default="true" />
 	<arg name="load_tracking_pipeline" default="false" />
 	<arg name="compute_keypoints_when_tracking_pose" default="false" />
-	<arg name="feature_matching_timeout_for_initial_alignment" default="2.2" />
+	<arg name="feature_matching_timeout_for_initial_alignment" default="3.0" />
 	<arg name="cloud_matching_timeout_for_intermediate_alignment" default="1.8" />
 	<arg name="cloud_matching_timeout_for_final_alignment" default="0.7" />
 

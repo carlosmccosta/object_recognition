@@ -26,10 +26,10 @@ initial_pose_estimators_matchers:
             # esf:
             #    feature_descriptor_radius_search: 0.015
         matchers:
-            max_correspondence_distance: 0.012
+            max_correspondence_distance: 0.008
             max_number_of_registration_iterations: 200000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 2.2
+                convergence_time_limit_seconds: 3.0
                 similarity_threshold: 0.5
                 inlier_fraction: 0.75
                 number_of_samples: 10
