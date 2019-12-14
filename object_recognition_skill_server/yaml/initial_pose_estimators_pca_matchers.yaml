@@ -2,15 +2,30 @@ initial_pose_estimators_matchers:
     publish_pointclouds_only_if_there_is_subscribers: false
     point_matchers:
         1_principal_component_analysis:
-            flip_pca_z_axis_for_aligning_it_to_the_cluster_centroid_z_normal: true
+            flip_pca_z_axis_for_aligning_it_to_the_cluster_centroid_z_normal: false
+            flip_pca_z_axis_for_aligning_it_to_the_cluster_centroid_z_normal_reference_pointcloud: false
+            flip_pca_z_axis_for_aligning_it_to_the_pointcloud_custom_z_flip_axis: true
+            flip_pca_z_axis_for_aligning_it_to_the_pointcloud_custom_z_flip_axis_reference_pointcloud: true
             flip_pca_x_axis_for_aligning_it_to_the_pointcloud_custom_x_flip_axis: true
+            flip_pca_x_axis_for_aligning_it_to_the_pointcloud_custom_x_flip_axis_reference_pointcloud: true
+            custom_z_flip_axis:
+                x: -1.0
+                y: 0.0
+                z: 0.0
+            custom_z_flip_axis_reference_pointcloud:
+                x: 0.0
+                y: 0.0
+                z: 1.0
             custom_x_flip_axis:
                 x: 0.0
+                y: 1.0
+                z: 0.0
+            custom_x_flip_axis_reference_pointcloud:
+                x: 0.0
                 y: -1.0
-                z: 1.0
+                z: 0.0
             registered_cloud_publish_topic: 'pca_alignment'
             reference_cloud_publish_topic: 'pca_alignment_reference_cloud'
-
 
 tracking_matchers:
     ignore_height_corrections: false
