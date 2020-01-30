@@ -38,6 +38,7 @@
 	<arg name="use_region_growing_segmentation" default="false" />
 	<arg name="use_euclidean_clustering_segmentation" default="true" />
 	<arg name="use_feature_matching_for_initial_alignment" default="true" />
+	<arg name="use_curvature_estimation" default="$(arg use_feature_matching_for_initial_alignment)" />
 	<arg name="use_pca_for_initial_alignment" default="false" />
 	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="$(eval use_pca_for_initial_alignment and not use_feature_matching_for_initial_alignment)" />
 	<arg name="use_cloud_matching" default="true" />
@@ -46,6 +47,7 @@
 	<arg name="feature_matching_timeout_for_initial_alignment" default="3.0" />
 	<arg name="cloud_matching_timeout_for_intermediate_alignment" default="1.8" />
 	<arg name="cloud_matching_timeout_for_final_alignment" default="0.7" />
+	<arg name="use_transformation_aligner" default="false" />
 
 	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
@@ -64,6 +66,7 @@
 	<arg name="yaml_configuration_initial_pose_estimators_feature_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_feature_matchers.yaml" />
 	<arg name="yaml_configuration_initial_pose_estimators_pca_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_pca_matchers.yaml" />
 	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers.yaml" />
+	<arg name="yaml_configuration_transformation_aligner_filename" default="$(find object_recognition_skill_server)/yaml/transformation_aligner.yaml" />
 	<arg name="yaml_configuration_outlier_detectors_filename" default="$(find object_recognition_skill_server)/yaml/outlier_detectors.yaml" if="$(eval not load_initial_pose_estimation_pipeline_using_pca or (load_initial_pose_estimation_pipeline_using_pca and use_pca_for_initial_alignment))" />
 	<arg name="yaml_configuration_outlier_detectors_filename" default="" if="$(eval load_initial_pose_estimation_pipeline_using_pca and not use_pca_for_initial_alignment)" />
 	<arg name="yaml_configuration_transformation_validators_filename" default="$(find object_recognition_skill_server)/yaml/transformation_validators.yaml" />
@@ -186,8 +189,10 @@
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final_ns)/tf_publisher/tf_broadcaster_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_intermediate_tf_broadcaster_frame_id_suffix)" />
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final_ns)/tf_publisher/tf_broadcaster_child_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" />
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final_ns)/reference_cloud_publish_topic_frame_id" type="str" value="$(arg object_frame_id)__$(arg point_matching_tf_broadcaster_frame_id_suffix)" />
-					<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_curvature_estimators_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_curvature_estimators_filename)" subst_value="true" if="$(eval use_curvature_estimation and bool(yaml_configuration_curvature_estimators_filename))" />
 					<rosparam command="load" file="$(arg yaml_configuration_initial_pose_estimators_point_matchers_filename)" subst_value="true" if="$(eval bool(yaml_configuration_initial_pose_estimators_point_matchers_filename))" />
+					<rosparam command="load" file="$(arg yaml_configuration_transformation_aligner_filename)" subst_value="true" if="$(eval use_transformation_aligner and bool(yaml_configuration_transformation_aligner_filename))" />
+					<param name="transformation_aligner/anchor_tf_frame_id" type="str" value="$(arg sensor_frame_id)" if="$(eval use_transformation_aligner and bool(yaml_configuration_transformation_aligner_filename))" />
 					<rosparam command="load" file="$(arg yaml_configuration_outlier_detectors_filename)" subst_value="true" if="$(eval bool(yaml_configuration_outlier_detectors_filename) and reference_pointcloud_required)" />
 					<rosparam command="load" file="$(arg yaml_configuration_transformation_validators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_transformation_validators_filename))" />
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate_ns)/convergence_time_limit_seconds" type="double" value="$(arg cloud_matching_timeout_for_intermediate_alignment)" />

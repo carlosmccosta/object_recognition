@@ -1,0 +1,6 @@
+transformation_aligner:
+    anchor_tf_frame_id: "camera_link"
+    rotation_alignment_frame_id: "reference_for_rotation_alignment"
+    correct_roll: false
+    correct_pitch: false
+    correct_yaw: true
