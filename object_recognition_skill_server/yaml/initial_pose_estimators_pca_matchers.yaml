@@ -18,11 +18,11 @@ initial_pose_estimators_matchers:
                 z: 1.0
             custom_x_flip_axis:
                 x: 0.0
-                y: 1.0
+                y: -1.0
                 z: 0.0
             custom_x_flip_axis_reference_pointcloud:
-                x: 0.0
-                y: -1.0
+                x: 1.0
+                y: 0.0
                 z: 0.0
             registered_cloud_publish_topic: 'pca_alignment'
             reference_cloud_publish_topic: 'pca_alignment_reference_cloud'
