@@ -19,6 +19,6 @@ Video 1: 6 DoF pose estimation of objects on top of a conveyor using CAD matchin
 Video 2: 6 DoF pose estimation of the vacuum grasp pose for smooth objects inside bins using region growing and principal component analysis
 
 
-![Overview of the main processing modules](https://raw.githubusercontent.com/carlosmccosta/dynamic_robot_localization/kinetic-devel/docs/system-modules.png)
+![Overview of the main processing modules](https://raw.githubusercontent.com/carlosmccosta/dynamic_robot_localization/kinetic-devel/docs/perception-overview.png)
 
 Figure 1: Overview of main processing modules
