@@ -1,7 +1,7 @@
 transformation_validators_initial_alignment:
     euclidean_transformation_validator:
         max_outliers_percentage: 0.12
-        max_outliers_percentage_reference_pointcloud: 0.65
+        max_outliers_percentage_reference_pointcloud: 0.7
         max_transformation_angle: -1.0
         max_transformation_distance: -1.0
         max_new_pose_diff_angle: -1.0
