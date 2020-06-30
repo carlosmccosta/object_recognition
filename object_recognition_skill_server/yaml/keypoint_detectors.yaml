@@ -8,7 +8,7 @@ keypoint_detectors:
             number_scales_per_octave: 4
             # min_contrast: 0.0017
             min_contrast: 0.001
-            sift3d_keypoints_cloud_publish_topic: 'reference_keypoints'
+            sift3d_keypoints_cloud_publish_topic: ''
         # intrinsic_shape_signature_3d:
         #    salient_radius: 0.008
         #    non_max_radius: 0.006
@@ -18,7 +18,7 @@ keypoint_detectors:
         #    threshold32: 0.4
         #    min_neighbors: 7
         #    angle_threshold: 0.77
-        #    iss3d_keypoints_cloud_publish_topic: 'reference_keypoints'
+        #    iss3d_keypoints_cloud_publish_topic: ''
     ambient_pointcloud:
         # compute_keypoints_when_tracking_pose: false
         # compute_keypoints_when_recovering_pose_tracking: false

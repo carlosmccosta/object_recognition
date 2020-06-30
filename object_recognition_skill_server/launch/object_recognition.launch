@@ -51,6 +51,7 @@
 
 	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
+	<arg name="yaml_configuration_filters_filename" default="" />
 	<arg name="yaml_configuration_filters_roi_filename" default="$(find object_recognition_skill_server)/yaml/filters_roi.yaml" />
 	<arg name="yaml_configuration_filters_ambient_pointcloud_integration_voxel_grid_filename" default="$(find object_recognition_skill_server)/yaml/filters_ambient_pointcloud_integration_voxel_grid.yaml" />
 	<arg name="yaml_configuration_filters_ambient_pointcloud_integration_random_sample_filename" default="$(find object_recognition_skill_server)/yaml/filters_ambient_pointcloud_integration_random_sample.yaml" />
@@ -139,6 +140,7 @@
 			<param name="reference_pointclouds/reference_pointcloud_update_mode" type="str" value="$(arg reference_pointcloud_update_mode)" />
 
 			<rosparam command="load" file="$(arg yaml_configuration_configs_filename)" subst_value="true" if="$(eval bool(yaml_configuration_configs_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_roi_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_roi_filename))" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_noise_removal_filename)" subst_value="true" ns="filters/ambient_pointcloud_integration_filters_map_frame" if="$(eval bool(yaml_configuration_filters_noise_removal_filename) and use_noise_removal and use_cloud_storage_mode)" />
 			<rosparam command="load" file="$(arg yaml_configuration_filters_noise_removal_filename)" subst_value="true" ns="filters/ambient_pointcloud_map_frame_feature_registration" if="$(eval bool(yaml_configuration_filters_noise_removal_filename) and use_noise_removal and not use_cloud_storage_mode)" />
