@@ -2,19 +2,19 @@ normal_estimators:
     normalize_normals: true
     colorize_pointcloud_with_curvatures: true
     # reference_pointcloud:
-    #     display_normals: true
+    #     display_normals: false
     #     use_filtered_cloud_as_normal_estimation_surface: true
     #     normal_estimation_omp:
-    #         search_k: 10
-    #         search_radius: 0.006
+    #         search_k: 20
+    #         search_radius: 0.0
     ambient_pointcloud:
         use_filtered_cloud_as_normal_estimation_surface: true
         compute_normals_when_tracking_pose: true
         compute_normals_when_recovering_pose_tracking: true
         compute_normals_when_estimating_initial_pose: true
         normal_estimation_omp:
-            search_k: 7
-            search_radius: 0.004
+            search_k: 20
+            search_radius: 0.0
             display_normals: false
             normals_viewer:
                 camera_px: 0.0

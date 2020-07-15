@@ -8,7 +8,7 @@ filters:
             sample_consensus_number_of_iterations: 1000
             sample_consensus_probability_of_sample_not_be_an_outlier: 0.2
             plane_convex_hull_scaling_factor: 1.4
-            segmentation_minimum_distance_to_plane: 0.0035
+            segmentation_minimum_distance_to_plane: 0.002
             segmentation_maximum_distance_to_plane: 0.12
             plane_inliers_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation_inliers'
             plane_inliers_convex_hull_cloud_publish_topic: 'filtered_pointcloud_plane_segmentation_inliers_convex_hull'

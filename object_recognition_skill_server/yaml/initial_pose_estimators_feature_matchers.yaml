@@ -4,9 +4,8 @@ initial_pose_estimators_matchers:
         display_feature_matching: false
         save_descriptors_in_binary_format : true
         keypoint_descriptors:
-            feature_descriptor_k_search: 10
-            feature_descriptor_radius_search: 0.012
-            # feature_descriptor_radius_search: 0.003
+            feature_descriptor_k_search: 50
+            feature_descriptor_radius_search: 0.0
             fpfh:
                 number_subdivisions_f1: 11
                 number_subdivisions_f2: 11
@@ -29,7 +28,7 @@ initial_pose_estimators_matchers:
             max_correspondence_distance: 0.008
             max_number_of_registration_iterations: 200000
             sample_consensus_initial_alignment_prerejective:
-                convergence_time_limit_seconds: 3.0
+                convergence_time_limit_seconds: 2.5
                 similarity_threshold: 0.5
                 inlier_fraction: 0.75
                 number_of_samples: 10
