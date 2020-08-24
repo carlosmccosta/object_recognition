@@ -9,7 +9,7 @@ message_management:
     tf_timeout: 0.1
     override_pointcloud_timestamp_to_current_time: false
     max_seconds_ambient_pointcloud_age: 300.0
-    use_odom_when_transforming_cloud_to_map_frame: false
+    use_odom_when_transforming_cloud_to_map_frame: true
     invert_cloud_to_map_transform: false
     invert_registration_transformation: true
     invert_initial_poses_from_msgs: false
@@ -30,9 +30,10 @@ message_management:
 
 general_configurations:
     publish_tf_map_odom: true
+    publish_tf_when_resetting_initial_pose: false
 
 reference_pointclouds:
-    republish_reference_pointcloud_after_successful_registration: false
+    republish_reference_pointcloud_after_successful_registration: true
     save_reference_pointclouds_in_binary_format: true
     normalize_normals: true
     use_incremental_map_update: false

@@ -6,8 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
         - /TF1/Frames1
-        - /Cloud storage1
         - /Cloud registration1
         - /Cloud registration1/Filtering1
         - /Cloud registration1/Filtering1/Plane segmentation1
@@ -112,15 +112,13 @@ Visualization Manager:
       Frame Timeout: 100000000
       Frames:
         All Enabled: false
-        camera_base:
-          Value: false
-        camera_base_link:
-          Value: false
         camera_link:
           Value: true
-        camera_link_c:
+        camera_link_optical:
           Value: false
-        camera_optical_frame:
+        map:
+          Value: false
+        map_corrected:
           Value: false
         object:
           Value: true
@@ -128,9 +126,11 @@ Visualization Manager:
           Value: false
         object__intermediate_point_matching:
           Value: false
+        object__pca_matching:
+          Value: false
         object__point_matching:
           Value: false
-        tool0:
+        sensor_frame:
           Value: false
       Marker Scale: 0.300000012
       Name: TF
@@ -141,16 +141,15 @@ Visualization Manager:
         camera_link:
           object:
             {}
-          object__feature_matching:
+          object__pca_matching:
             object__intermediate_point_matching:
               object__point_matching:
                 {}
-        tool0:
-          camera_optical_frame:
-            camera_base:
-              camera_base_link:
-                {}
-            camera_link_c:
+          sensor_frame:
+            {}
+        map:
+          map_corrected:
+            camera_link_optical:
               {}
       Update Interval: 0
       Value: true
@@ -325,7 +324,7 @@ Visualization Manager:
           Color: 170; 255; 0
           Color Transformer: FlatColor
           Decay Time: 0
-          Enabled: true
+          Enabled: false
           Invert Rainbow: false
           Max Color: 255; 255; 255
           Max Intensity: 4096
@@ -342,7 +341,7 @@ Visualization Manager:
           Unreliable: false
           Use Fixed Frame: true
           Use rainbow: true
-          Value: true
+          Value: false
       Enabled: true
       Name: Cloud storage
     - Class: rviz/Group
@@ -439,6 +438,66 @@ Visualization Manager:
               Use Fixed Frame: true
               Use rainbow: true
               Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 170; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: radius outlier removal
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_radius_outlier_removal
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 170; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: statistical outlier removal
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/filtered_pointcloud_statistical_outlier_removal
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
             - Class: rviz/Group
               Displays:
                 - Alpha: 1
@@ -453,7 +512,7 @@ Visualization Manager:
                   Color: 208; 208; 0
                   Color Transformer: FlatColor
                   Decay Time: 0
-                  Enabled: true
+                  Enabled: false
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
                   Max Intensity: 4096
@@ -470,7 +529,7 @@ Visualization Manager:
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
-                  Value: true
+                  Value: false
                 - Alpha: 1
                   Autocompute Intensity Bounds: true
                   Autocompute Value Bounds:
@@ -605,7 +664,7 @@ Visualization Manager:
               Color: 255; 170; 0
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: true
+              Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -622,7 +681,7 @@ Visualization Manager:
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: true
+              Value: false
             - Alpha: 1
               Autocompute Intensity Bounds: true
               Autocompute Value Bounds:
@@ -669,7 +728,7 @@ Visualization Manager:
               Color: 52; 130; 255
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: true
+              Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -686,7 +745,7 @@ Visualization Manager:
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: true
+              Value: false
             - Class: rviz/Group
               Displays:
                 - Alpha: 1
@@ -701,7 +760,7 @@ Visualization Manager:
                   Color: 255; 85; 127
                   Color Transformer: FlatColor
                   Decay Time: 0
-                  Enabled: true
+                  Enabled: false
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
                   Max Intensity: 4096
@@ -718,7 +777,7 @@ Visualization Manager:
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
-                  Value: true
+                  Value: false
                 - Alpha: 1
                   Arrow Length: 0.300000012
                   Axes Length: 0.300000012
@@ -744,10 +803,40 @@ Visualization Manager:
                   Axis: Z
                   Channel Name: intensity
                   Class: rviz/PointCloud2
+                  Color: 255; 255; 255
+                  Color Transformer: RGB8
+                  Decay Time: 0
+                  Enabled: false
+                  Invert Rainbow: false
+                  Max Color: 255; 255; 255
+                  Max Intensity: 4096
+                  Min Color: 0; 0; 0
+                  Min Intensity: 0
+                  Name: initial alignment
+                  Position Transformer: XYZ
+                  Queue Size: 10
+                  Selectable: true
+                  Size (Pixels): 3
+                  Size (m): 0.00999999978
+                  Style: Points
+                  Topic: /object_recognition/initial_alignment
+                  Unreliable: false
+                  Use Fixed Frame: true
+                  Use rainbow: true
+                  Value: false
+                - Alpha: 1
+                  Autocompute Intensity Bounds: true
+                  Autocompute Value Bounds:
+                    Max Value: 10
+                    Min Value: -10
+                    Value: true
+                  Axis: Z
+                  Channel Name: intensity
+                  Class: rviz/PointCloud2
                   Color: 177; 118; 0
                   Color Transformer: FlatColor
                   Decay Time: 0
-                  Enabled: true
+                  Enabled: false
                   Invert Rainbow: false
                   Max Color: 255; 255; 255
                   Max Intensity: 4096
@@ -764,7 +853,7 @@ Visualization Manager:
                   Unreliable: false
                   Use Fixed Frame: true
                   Use rainbow: true
-                  Value: true
+                  Value: false
               Enabled: true
               Name: Feature matching
           Enabled: true
@@ -813,7 +902,7 @@ Visualization Manager:
               Color: 85; 255; 127
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: true
+              Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -830,7 +919,37 @@ Visualization Manager:
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
-              Value: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 255; 255
+              Color Transformer: RGB8
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: aligned pointcloud
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 3
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/aligned_pointcloud
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
           Enabled: true
           Name: ICP alignment
         - Class: rviz/Group
@@ -907,7 +1026,7 @@ Visualization Manager:
               Color: 170; 255; 0
               Color Transformer: FlatColor
               Decay Time: 0
-              Enabled: true
+              Enabled: false
               Invert Rainbow: false
               Max Color: 255; 255; 255
               Max Intensity: 4096
@@ -921,6 +1040,66 @@ Visualization Manager:
               Size (m): 0.00999999978
               Style: Points
               Topic: /object_recognition/aligned_pointcloud_inliers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 255; 0; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: false
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: aligned outliers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 5
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/aligned_pointcloud_outliers
+              Unreliable: false
+              Use Fixed Frame: true
+              Use rainbow: true
+              Value: false
+            - Alpha: 1
+              Autocompute Intensity Bounds: true
+              Autocompute Value Bounds:
+                Max Value: 10
+                Min Value: -10
+                Value: true
+              Axis: Z
+              Channel Name: intensity
+              Class: rviz/PointCloud2
+              Color: 170; 255; 0
+              Color Transformer: FlatColor
+              Decay Time: 0
+              Enabled: true
+              Invert Rainbow: false
+              Max Color: 255; 255; 255
+              Max Intensity: 4096
+              Min Color: 0; 0; 0
+              Min Intensity: 0
+              Name: reference inliers
+              Position Transformer: XYZ
+              Queue Size: 10
+              Selectable: true
+              Size (Pixels): 5
+              Size (m): 0.00999999978
+              Style: Points
+              Topic: /object_recognition/reference_pointcloud_inliers
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
@@ -943,14 +1122,14 @@ Visualization Manager:
               Max Intensity: 4096
               Min Color: 0; 0; 0
               Min Intensity: 0
-              Name: aligned outliers
+              Name: reference outliers
               Position Transformer: XYZ
               Queue Size: 10
               Selectable: true
               Size (Pixels): 5
               Size (m): 0.00999999978
               Style: Points
-              Topic: /object_recognition/aligned_pointcloud_outliers
+              Topic: /object_recognition/reference_pointcloud_outliers
               Unreliable: false
               Use Fixed Frame: true
               Use rainbow: true
@@ -984,25 +1163,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.730882883
+      Distance: 1.2312007
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.345284551
-        Y: 0.0218217783
-        Z: -0.0174877774
+        X: 0.531161904
+        Y: -0.104961388
+        Z: 0.0492749065
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.175202429
+      Pitch: -0.384797722
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 2.88480568
+      Yaw: 3.46485043
     Saved: ~
 Window Geometry:
   Displays:
@@ -1010,7 +1189,7 @@ Window Geometry:
   Height: 1416
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000400000000000001e9000004fefc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006300fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000160049006d00610067006500200063006f006c006f0072010000004a000002210000000000000000fb0000001a0049006d0061006700650020006300680061007200750063006f0100000272000001250000000000000000fb000000160049006d006100670065002000640065007000740068010000039e000001aa000000000000000000000001000001fd0000051dfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fc0000004a0000051d000000fe01000020fa000000010100000002fb0000000a005600690065007700730100000000ffffffff0000011100fffffffb000000100044006900730070006c0061007900730100000867000001560000017900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009bd0000003efc0100000002fb0000000800540069006d00650000000000000009bd0000038300fffffffb0000000800540069006d00650100000000000004500000000000000000000007fc0000051d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001e9000004fefc020000000afb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006300fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb000000160049006d00610067006500200063006f006c006f0072010000004a000002210000000000000000fb0000001a0049006d0061006700650020006300680061007200750063006f0100000272000001250000000000000000fb000000160049006d006100670065002000640065007000740068010000039e000001aa000000000000000000000001000001fd0000051dfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fc0000004a0000051d000000fe01000020fa000000010100000002fb0000000a005600690065007700730100000000ffffffff0000011100fffffffb000000100044006900730070006c0061007900730100000867000001560000017900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009bd0000003efc0100000002fb0000000800540069006d00650000000000000009bd0000038300fffffffb0000000800540069006d00650100000000000004500000000000000000000007bb0000051d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -1019,6 +1198,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: false
-  Width: 2560
-  X: 0
+  Width: 2495
+  X: 65
   Y: 24
