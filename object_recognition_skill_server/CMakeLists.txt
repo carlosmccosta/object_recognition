@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(object_recognition_skill_server)
 
 set(${PROJECT_NAME}_CATKIN_COMPONENTS
@@ -11,7 +11,7 @@ set(${PROJECT_NAME}_CATKIN_COMPONENTS
     tf2_geometry_msgs
 )
 
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++14)
 
 find_package(OpenMP)
 

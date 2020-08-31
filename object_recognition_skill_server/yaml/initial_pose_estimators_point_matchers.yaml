@@ -39,6 +39,8 @@ initial_pose_estimators_matchers:
             correspondence_randomness: 50
             maximum_optimizer_iterations: 100
             use_reciprocal_correspondences: false
+            use_symmetric_objective_cost_function: true
+            ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'intermediate_alignment_reference_cloud'
         # 3_iterative_closest_point_non_linear:
         # 3_iterative_closest_point:
@@ -65,6 +67,8 @@ initial_pose_estimators_matchers:
             correspondence_randomness: 50
             maximum_optimizer_iterations: 100
             use_reciprocal_correspondences: false
+            use_symmetric_objective_cost_function: true
+            ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'final_alignment_reference_cloud'
 
 
