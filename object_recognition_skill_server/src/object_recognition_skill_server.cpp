@@ -37,10 +37,21 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	feedback_ = object_recognition_skill_msgs::ObjectRecognitionSkillFeedback();
 	result_ = object_recognition_skill_msgs::ObjectRecognitionSkillResult();
 
+	ROS_INFO("Starting ObjectRecognitionSkillServer goal");
+
+	std::string operation_mode_upper_case = _goal->operationMode;
+	std::transform(operation_mode_upper_case.begin(), operation_mode_upper_case.end(), operation_mode_upper_case.begin(), ::toupper);
+
 	if (object_pose_estimator_.ambientPointcloudIntegrationActive()) {
 		object_pose_estimator_.setAmbientPointcloudIntegrationFiltersPreprocessedPointcloudSaveFilename(_goal->objectModel);
 	} else if (object_pose_estimator_.referencePointCloudRequired() && object_pose_estimator_.getMapUpdateMode() == dynamic_robot_localization::Localization<DRLPointType>::MapUpdateMode::NoIntegration && ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded())) {
 		publihGoalAborted("Missing reference point cloud");
+		return;
+	}
+
+	if (operation_mode_upper_case == "SETUP") {
+		ROS_INFO("Object model setup finished");
+		publishGoalSucceeded();
 		return;
 	}
 

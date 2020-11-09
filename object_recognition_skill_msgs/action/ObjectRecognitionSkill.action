@@ -1,4 +1,5 @@
 #goal definition
+string operationMode # SETUP | PERCEPTION
 string objectModel
 int32 clusterIndex
 ---
