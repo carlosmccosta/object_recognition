@@ -17,6 +17,7 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	node_handle_ = _node_handle;
 	private_node_handle_ = _private_node_handle;
 	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
+	private_node_handle_->param<bool>("use_object_model_caching", use_object_model_caching_, true);
 	private_node_handle_->param<int>("number_of_recognition_retries", number_of_recognition_retries_, 3);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
 	return true;
@@ -44,12 +45,21 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 
 	if (object_pose_estimator_.ambientPointcloudIntegrationActive()) {
 		object_pose_estimator_.setAmbientPointcloudIntegrationFiltersPreprocessedPointcloudSaveFilename(_goal->objectModel);
-	} else if (object_pose_estimator_.referencePointCloudRequired() && object_pose_estimator_.getMapUpdateMode() == dynamic_robot_localization::Localization<DRLPointType>::MapUpdateMode::NoIntegration && ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded())) {
-		publihGoalAborted("Missing reference point cloud");
-		return;
+	} else if (object_pose_estimator_.referencePointCloudRequired() && object_pose_estimator_.getMapUpdateMode() == dynamic_robot_localization::Localization<DRLPointType>::MapUpdateMode::NoIntegration) {
+		if (operation_mode_upper_case != "SETUP_WITHOUT_CACHING" && use_object_model_caching_ && (cached_object_model_ == _goal->objectModel || _goal->objectModel.empty()) && object_pose_estimator_.referencePointCloudLoaded()) {
+			ROS_INFO_STREAM("Using cached model [" << cached_object_model_ << "]");
+		} else {
+			if ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded()) {
+				publihGoalAborted("Missing reference point cloud");
+				return;
+			} else {
+				if (!_goal->objectModel.empty())
+					cached_object_model_ = _goal->objectModel;
+			}
+		}
 	}
 
-	if (operation_mode_upper_case == "SETUP") {
+	if (operation_mode_upper_case == "SETUP" || operation_mode_upper_case == "SETUP_WITHOUT_CACHING") {
 		ROS_INFO("Object model setup finished");
 		publishGoalSucceeded();
 		return;

@@ -91,6 +91,7 @@
 
 	<!-- configurations -->
 	<arg name="action_server_name" default="ObjectRecognitionSkill"/>
+	<arg name="use_object_model_caching" default="true"/>
 	<arg name="number_of_recognition_retries" default="0" if="$(arg use_cloud_storage_mode)"/>
 	<arg name="number_of_recognition_retries" default="3" unless="$(arg use_cloud_storage_mode)"/>
 
@@ -114,6 +115,7 @@
 	<group ns="$(arg namespace)">
 		<group ns="$(arg namespace_object_recognition_skill_server)" clear_params="true">
 			<param name="action_server_name" type="str" value="$(arg action_server_name)" />
+			<param name="use_object_model_caching" type="bool" value="$(arg use_object_model_caching)" />
 			<param name="number_of_recognition_retries" type="int" value="$(arg number_of_recognition_retries)" />
 			<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
 			<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
