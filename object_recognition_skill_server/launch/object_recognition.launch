@@ -99,6 +99,9 @@
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/4_region_growing/cluster_selector/" if="$(eval use_region_growing_segmentation)" />
 	<arg name="clustering_module_parameter_server_namespace" default="" if="$(eval not use_euclidean_clustering_segmentation and not use_region_growing_segmentation)" />
 
+	<arg name="principal_component_analysis_module_parameter_server_namespace" default="initial_pose_estimators_matchers/point_matchers/1_principal_component_analysis/" if="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+	<arg name="principal_component_analysis_module_parameter_server_namespace" default="" unless="$(arg load_initial_pose_estimation_pipeline_using_pca)" />
+
 	<!-- reference map data -->
 	<arg name="reference_pointclouds_database_folder_path" default="$(find object_recognition_skill_server)/models/" />
 	<arg name="reference_pointcloud_filename" default="" />
@@ -118,6 +121,7 @@
 			<param name="use_object_model_caching" type="bool" value="$(arg use_object_model_caching)" />
 			<param name="number_of_recognition_retries" type="int" value="$(arg number_of_recognition_retries)" />
 			<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
+			<param name="principal_component_analysis_module_parameter_server_namespace" type="str" value="$(arg principal_component_analysis_module_parameter_server_namespace)" />
 			<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />
 			<param name="frame_ids/map_frame_id_for_transforming_pointclouds" type="str" value="$(arg object_frame_id_for_transforming_pointclouds)" />
 			<param name="frame_ids/map_frame_id_for_publishing_pointclouds" type="str" value="$(arg object_frame_id_for_publishing_pointclouds)" />

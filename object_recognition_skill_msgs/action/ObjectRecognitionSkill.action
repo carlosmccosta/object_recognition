@@ -2,6 +2,7 @@
 string operationMode # SETUP | SETUP_WITHOUT_CACHING | PERCEPTION
 string objectModel
 int32 clusterIndex
+geometry_msgs/Vector3 pca_custom_x_flip_axis
 ---
 #result definition
 geometry_msgs/Pose pose

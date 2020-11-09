@@ -38,6 +38,7 @@ class ObjectRecognitionSkillServer {
 	std::shared_ptr<ObjectRecognitionSkillActionServer> actionServer_;
 	std::string action_server_name_;
 	std::string clustering_module_parameter_server_namespace_;
+	std::string principal_component_analysis_module_parameter_server_namespace_;
 	object_recognition_skill_msgs::ObjectRecognitionSkillFeedback feedback_;
 	object_recognition_skill_msgs::ObjectRecognitionSkillResult result_;
 	dynamic_robot_localization::Localization<DRLPointType> object_pose_estimator_;

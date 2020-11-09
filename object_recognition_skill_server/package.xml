@@ -13,12 +13,11 @@
 
     <depend>actionlib</depend>
     <depend>dynamic_robot_localization</depend>
+    <depend>geometry_msgs</depend>
     <depend>object_recognition_skill_msgs</depend>
     <depend>rosconsole</depend>
     <depend>roscpp</depend>
     <depend>tf2</depend>
     <depend>tf2_geometry_msgs</depend>
-
-    <exec_depend>object_recognition_dataset</exec_depend>
 
 </package>

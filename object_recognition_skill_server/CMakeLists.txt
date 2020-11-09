@@ -4,6 +4,7 @@ project(object_recognition_skill_server)
 set(${PROJECT_NAME}_CATKIN_COMPONENTS
     actionlib
     dynamic_robot_localization
+    geometry_msgs
     object_recognition_skill_msgs
     rosconsole
     roscpp

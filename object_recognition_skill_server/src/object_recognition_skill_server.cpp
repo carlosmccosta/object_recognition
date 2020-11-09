@@ -76,6 +76,20 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		}
 	}
 
+	private_node_handle_->param<std::string>("principal_component_analysis_module_parameter_server_namespace", principal_component_analysis_module_parameter_server_namespace_, "");
+	if (!principal_component_analysis_module_parameter_server_namespace_.empty()) {
+		if (private_node_handle_->hasParam(principal_component_analysis_module_parameter_server_namespace_)) {
+			if (principal_component_analysis_module_parameter_server_namespace_.back() != '/') {
+				principal_component_analysis_module_parameter_server_namespace_ += "/";
+			}
+			if (_goal->pca_custom_x_flip_axis.x != 0.0 || _goal->pca_custom_x_flip_axis.y != 0.0 || _goal->pca_custom_x_flip_axis.z != 0.0) {
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/x", _goal->pca_custom_x_flip_axis.x);
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/y", _goal->pca_custom_x_flip_axis.y);
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/z", _goal->pca_custom_x_flip_axis.z);
+			}
+		}
+	}
+
 	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status = dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation;
 	ros::Rate rate(10);
 

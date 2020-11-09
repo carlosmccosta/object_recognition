@@ -8,14 +8,14 @@ initial_pose_estimators_matchers:
             map_margin_z: 0.1
             map_use_search_tree_when_query_point_is_outside_lookup_table: true
             map_compute_distance_from_query_point_to_closest_point: false
-            map_initialize_lookup_table_using_euclidean_distance_transform: true
+            map_initialize_lookup_table_using_euclidean_distance_transform: false
             sensor_cell_resolution: 0.002
             sensor_margin_x: 0.1
             sensor_margin_y: 0.1
             sensor_margin_z: 0.1
             sensor_use_search_tree_when_query_point_is_outside_lookup_table: true
             sensor_compute_distance_from_query_point_to_closest_point: false
-            sensor_initialize_lookup_table_using_euclidean_distance_transform: true
+            sensor_initialize_lookup_table_using_euclidean_distance_transform: false
         # 2_iterative_closest_point:
         2_iterative_closest_point_with_normals:
             correspondence_estimation_approach: 'CorrespondenceEstimationBackProjection'
@@ -27,9 +27,10 @@ initial_pose_estimators_matchers:
             max_correspondence_distance: 0.035
             convergence_time_limit_seconds: 1.0
             convergence_rotation_threshold: 0.99999 # cos_angle = 0.99999 -> 0.256 degrees
-            transformation_epsilon: 1e-8 # sum of squared translations offsets (between registrations)
-            euclidean_fitness_epsilon: 1e-6
-            max_number_of_registration_iterations: 500
+            convergence_max_iterations_similar_transforms: 3
+            transformation_epsilon: 0.0000001 # sum of squared translations offsets (between registrations)
+            euclidean_fitness_epsilon: 0.000001
+            max_number_of_registration_iterations: 300
             max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.02
             match_only_keypoints: false
@@ -39,7 +40,7 @@ initial_pose_estimators_matchers:
             correspondence_randomness: 50
             maximum_optimizer_iterations: 100
             use_reciprocal_correspondences: false
-            use_symmetric_objective_cost_function: true
+            use_symmetric_objective_cost_function: false
             ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'intermediate_alignment_reference_cloud'
         # 3_iterative_closest_point_non_linear:
@@ -55,9 +56,10 @@ initial_pose_estimators_matchers:
             max_correspondence_distance: 0.01
             convergence_time_limit_seconds: 0.5
             convergence_rotation_threshold: 0.99999 # cos_angle = 0.99999 -> 0.256 degrees
-            transformation_epsilon: 1e-8 # sum of squared translations offsets (between registrations)
-            euclidean_fitness_epsilon: 1e-6
-            max_number_of_registration_iterations: 500
+            convergence_max_iterations_similar_transforms: 3
+            transformation_epsilon: 0.0000001 # sum of squared translations offsets (between registrations)
+            euclidean_fitness_epsilon: 0.000001
+            max_number_of_registration_iterations: 300
             max_number_of_ransac_iterations: 0
             ransac_outlier_rejection_threshold: 0.02
             match_only_keypoints: false
@@ -67,7 +69,7 @@ initial_pose_estimators_matchers:
             correspondence_randomness: 50
             maximum_optimizer_iterations: 100
             use_reciprocal_correspondences: false
-            use_symmetric_objective_cost_function: true
+            use_symmetric_objective_cost_function: false
             ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'final_alignment_reference_cloud'
 
