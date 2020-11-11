@@ -43,6 +43,8 @@ initial_pose_estimators_matchers:
             use_symmetric_objective_cost_function: false
             ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'intermediate_alignment_reference_cloud'
+            convergence_time_limit_seconds_as_mean_convergence_time_percentage: -1.0
+            minimum_number_of_convergence_time_measurements_to_adjust_convergence_time_limit: -1
         # 3_iterative_closest_point_non_linear:
         # 3_iterative_closest_point:
         3_iterative_closest_point_with_normals:
@@ -72,6 +74,8 @@ initial_pose_estimators_matchers:
             use_symmetric_objective_cost_function: false
             ensure_normals_with_same_direction_when_using_symmetric_objective_cost_function: false
             reference_cloud_publish_topic: 'final_alignment_reference_cloud'
+            convergence_time_limit_seconds_as_mean_convergence_time_percentage: -1.0
+            minimum_number_of_convergence_time_measurements_to_adjust_convergence_time_limit: -1
 
 
 tracking_matchers:
