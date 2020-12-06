@@ -48,6 +48,8 @@
 	<arg name="cloud_matching_timeout_for_intermediate_alignment" default="1.8" />
 	<arg name="cloud_matching_timeout_for_final_alignment" default="0.7" />
 	<arg name="use_transformation_aligner" default="false" />
+	<arg name="max_registration_outliers" default="0.1" />
+	<arg name="max_registration_outliers_reference_pointcloud" default="0.7" />
 
 	<!-- configuration files (empty paths can be given for avoiding the rosparam load) -->
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
@@ -205,6 +207,8 @@
 					<rosparam command="load" file="$(arg yaml_configuration_transformation_validators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_transformation_validators_filename))" />
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_intermediate_ns)/convergence_time_limit_seconds" type="double" value="$(arg cloud_matching_timeout_for_intermediate_alignment)" />
 					<param name="initial_pose_estimators_matchers/point_matchers/$(arg point_matcher_final_ns)/convergence_time_limit_seconds" type="double" value="$(arg cloud_matching_timeout_for_final_alignment)" />
+					<param name="transformation_validators_initial_alignment/euclidean_transformation_validator/max_outliers_percentage" type="double" value="$(arg max_registration_outliers)" />
+					<param name="transformation_validators_initial_alignment/euclidean_transformation_validator/max_outliers_percentage_reference_pointcloud" type="double" value="$(arg max_registration_outliers_reference_pointcloud)" />
 				</group>
 
 				<rosparam command="load" file="$(arg yaml_configuration_filters_voxel_grid_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_voxel_grid_filename) and use_voxel_grid)" />
