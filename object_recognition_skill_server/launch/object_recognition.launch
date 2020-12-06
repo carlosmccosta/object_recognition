@@ -42,6 +42,7 @@
 	<arg name="use_pca_for_initial_alignment" default="false" />
 	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="$(eval use_pca_for_initial_alignment and not use_feature_matching_for_initial_alignment)" />
 	<arg name="use_cloud_matching" default="true" />
+	<arg name="use_iterative_closest_point_with_normals" default="true" />
 	<arg name="load_tracking_pipeline" default="false" />
 	<arg name="compute_keypoints_when_tracking_pose" default="false" />
 	<arg name="feature_matching_timeout_for_initial_alignment" default="3.0" />
@@ -68,7 +69,8 @@
 	<arg name="yaml_configuration_keypoint_detectors_filename" default="$(find object_recognition_skill_server)/yaml/keypoint_detectors.yaml" />
 	<arg name="yaml_configuration_initial_pose_estimators_feature_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_feature_matchers.yaml" />
 	<arg name="yaml_configuration_initial_pose_estimators_pca_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_pca_matchers.yaml" />
-	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers.yaml" />
+	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers_with_normals.yaml" if="$(arg use_iterative_closest_point_with_normals)" />
+	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers.yaml" unless="$(arg use_iterative_closest_point_with_normals)" />
 	<arg name="yaml_configuration_transformation_aligner_filename" default="$(find object_recognition_skill_server)/yaml/transformation_aligner.yaml" />
 	<arg name="yaml_configuration_outlier_detectors_filename" default="$(find object_recognition_skill_server)/yaml/outlier_detectors.yaml" if="$(eval not load_initial_pose_estimation_pipeline_using_pca or (load_initial_pose_estimation_pipeline_using_pca and use_pca_for_initial_alignment))" />
 	<arg name="yaml_configuration_outlier_detectors_filename" default="" if="$(eval load_initial_pose_estimation_pipeline_using_pca and not use_pca_for_initial_alignment)" />
@@ -83,8 +85,10 @@
 	<arg name="pca_matching_publish_tf" default="true" />
 	<arg name="pca_tf_broadcaster_frame_id_suffix" default="pca_matching" />
 	<arg name="pca_matching_ns" default="1_principal_component_analysis" />
-	<arg name="point_matcher_intermediate_ns" default="2_iterative_closest_point_with_normals" />
-	<arg name="point_matcher_final_ns" default="3_iterative_closest_point_with_normals" />
+	<arg name="point_matcher_intermediate_ns" default="2_iterative_closest_point_with_normals" if="$(arg use_iterative_closest_point_with_normals)" />
+	<arg name="point_matcher_intermediate_ns" default="2_iterative_closest_point" unless="$(arg use_iterative_closest_point_with_normals)" />
+	<arg name="point_matcher_final_ns" default="3_iterative_closest_point_with_normals" if="$(arg use_iterative_closest_point_with_normals)" />
+	<arg name="point_matcher_final_ns" default="3_iterative_closest_point" unless="$(arg use_iterative_closest_point_with_normals)" />
 	<arg name="point_matching_publish_tf" default="true" />
 	<arg name="point_matching_intermediate_tf_broadcaster_frame_id_suffix" default="intermediate_point_matching" />
 	<arg name="point_matching_tf_broadcaster_frame_id_suffix" default="point_matching" />

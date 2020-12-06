@@ -16,11 +16,11 @@ initial_pose_estimators_matchers:
             sensor_use_search_tree_when_query_point_is_outside_lookup_table: true
             sensor_compute_distance_from_query_point_to_closest_point: false
             sensor_initialize_lookup_table_using_euclidean_distance_transform: false
-        2_iterative_closest_point:
-        # 2_iterative_closest_point_with_normals:
-            correspondence_estimation_approach: 'CorrespondenceEstimation'
+        # 2_iterative_closest_point:
+        2_iterative_closest_point_with_normals:
+            # correspondence_estimation_approach: 'CorrespondenceEstimation'
             # correspondence_estimation_approach: 'CorrespondenceEstimationLookupTable'
-            # correspondence_estimation_approach: 'CorrespondenceEstimationBackProjection'
+            correspondence_estimation_approach: 'CorrespondenceEstimationBackProjection'
             correspondence_estimation_k: 0
             correspondence_estimation_normals_angle_filtering_threshold: 50.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
@@ -47,12 +47,12 @@ initial_pose_estimators_matchers:
             convergence_time_limit_seconds_as_mean_convergence_time_percentage: -1.0
             minimum_number_of_convergence_time_measurements_to_adjust_convergence_time_limit: -1
         # 3_iterative_closest_point_non_linear:
-        3_iterative_closest_point:
-        # 3_iterative_closest_point_with_normals:
+        # 3_iterative_closest_point:
+        3_iterative_closest_point_with_normals:
         # 3_iterative_closest_point_generalized:
-            correspondence_estimation_approach: 'CorrespondenceEstimation'
+            # correspondence_estimation_approach: 'CorrespondenceEstimation'
             # correspondence_estimation_approach: 'CorrespondenceEstimationLookupTable'
-            # correspondence_estimation_approach: 'CorrespondenceEstimationBackProjection'
+            correspondence_estimation_approach: 'CorrespondenceEstimationBackProjection'
             correspondence_estimation_k: 0
             correspondence_estimation_normals_angle_filtering_threshold: 50.0
             correspondence_estimation_normals_angle_penalty_factor: 3.0
