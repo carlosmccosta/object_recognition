@@ -10,11 +10,10 @@
 
 	<!-- topics -->
 	<arg name="pose_with_covariance_stamped_topic" default="initial_pose" /> <!-- rviz topic -->
-	<arg name="pose_stamped_topic" default="localization_pose" />
 
 	<!-- tf configurations -->
 	<arg name="publish_initial_pose" default="true" />
-	<arg name="publish_pose_tf_rate" default="5.0" />
+	<arg name="publish_pose_tf_rate" default="-5.0" />
 	<arg name="update_transform_timestamp_when_republishing_tf" default="false" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
 	<arg name="invert_tf_transform" default="false" />
@@ -37,7 +36,7 @@
 		<param name="tf_lookup_timeout" type="double" value="1.5" />
 		<param name="publish_last_pose_tf_timeout_seconds" type="double" value="$(arg publish_last_pose_tf_timeout_seconds)" />
 		<param name="pose_with_covariance_stamped_topic" type="str" value="$(arg pose_with_covariance_stamped_topic)" /> <!-- rviz topic -->
-		<param name="pose_stamped_topic" type="str" value="$(arg pose_stamped_topic)" />
+		<param name="pose_stamped_topic" type="str" value="" />
 		<param name="odometry_topic" type="str" value="" />
 		<param name="map_frame_id" type="str" value="$(arg object_frame_id)" />
 		<param name="odom_frame_id" type="str" value="" />
