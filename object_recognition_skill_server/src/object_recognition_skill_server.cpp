@@ -71,6 +71,11 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 			if (clustering_module_parameter_server_namespace_.back() != '/') {
 				clustering_module_parameter_server_namespace_ += "/";
 			}
+
+			if (!_goal->tf_name_for_sorting_clusters.empty()) {
+				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "tf_name_for_sorting_clusters", _goal->tf_name_for_sorting_clusters);
+			}
+			
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
 		}

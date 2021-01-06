@@ -1,6 +1,7 @@
 #goal definition
 string operationMode # SETUP | SETUP_WITHOUT_CACHING | PERCEPTION
 string objectModel
+string tf_name_for_sorting_clusters
 int32 clusterIndex
 geometry_msgs/Vector3 pca_custom_x_flip_axis
 ---
