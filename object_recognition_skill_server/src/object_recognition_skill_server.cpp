@@ -43,18 +43,28 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	std::string operation_mode_upper_case = _goal->operationMode;
 	std::transform(operation_mode_upper_case.begin(), operation_mode_upper_case.end(), operation_mode_upper_case.begin(), ::toupper);
 
+	bool referencePointCloudRequired = object_pose_estimator_.referencePointCloudRequired();
+	object_pose_estimator_.setFilteredPointcloudSaveFilename("");
+	object_pose_estimator_.setFilteredPointcloudSaveFrameId("");
+
 	if (object_pose_estimator_.ambientPointcloudIntegrationActive()) {
 		object_pose_estimator_.setAmbientPointcloudIntegrationFiltersPreprocessedPointcloudSaveFilename(_goal->objectModel);
 	} else if (object_pose_estimator_.referencePointCloudRequired() && object_pose_estimator_.getMapUpdateMode() == dynamic_robot_localization::Localization<DRLPointType>::MapUpdateMode::NoIntegration) {
-		if (operation_mode_upper_case != "SETUP_WITHOUT_CACHING" && use_object_model_caching_ && (cached_object_model_ == _goal->objectModel || _goal->objectModel.empty()) && object_pose_estimator_.referencePointCloudLoaded()) {
-			ROS_INFO_STREAM("Using cached model [" << cached_object_model_ << "]");
+		if (operation_mode_upper_case == "SAVE_FILTERED_POINTCLOUD") {
+			object_pose_estimator_.setReferencePointCloudRequired(false);
+			object_pose_estimator_.setFilteredPointcloudSaveFilename(_goal->objectModel);
+			object_pose_estimator_.setFilteredPointcloudSaveFrameId(_goal->filteredPointcloudSaveFrameId);
 		} else {
-			if ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded()) {
-				publihGoalAborted("Missing reference point cloud");
-				return;
+			if (operation_mode_upper_case != "SETUP_WITHOUT_CACHING" && use_object_model_caching_ && (cached_object_model_ == _goal->objectModel || _goal->objectModel.empty()) && object_pose_estimator_.referencePointCloudLoaded()) {
+				ROS_INFO_STREAM("Using cached model [" << cached_object_model_ << "]");
 			} else {
-				if (!_goal->objectModel.empty())
-					cached_object_model_ = _goal->objectModel;
+				if ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded()) {
+					publihGoalAborted("Missing reference point cloud");
+					return;
+				} else {
+					if (!_goal->objectModel.empty())
+						cached_object_model_ = _goal->objectModel;
+				}
 			}
 		}
 	}
@@ -72,10 +82,8 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 				clustering_module_parameter_server_namespace_ += "/";
 			}
 
-			if (!_goal->tf_name_for_sorting_clusters.empty()) {
-				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "tf_name_for_sorting_clusters", _goal->tf_name_for_sorting_clusters);
-			}
-			
+			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "tf_name_for_sorting_clusters", _goal->tfNameForSortingClusters);
+
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
 		}
@@ -87,10 +95,10 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 			if (principal_component_analysis_module_parameter_server_namespace_.back() != '/') {
 				principal_component_analysis_module_parameter_server_namespace_ += "/";
 			}
-			if (_goal->pca_custom_x_flip_axis.x != 0.0 || _goal->pca_custom_x_flip_axis.y != 0.0 || _goal->pca_custom_x_flip_axis.z != 0.0) {
-				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/x", _goal->pca_custom_x_flip_axis.x);
-				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/y", _goal->pca_custom_x_flip_axis.y);
-				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/z", _goal->pca_custom_x_flip_axis.z);
+			if (_goal->pcaCustomXFlipAxis.x != 0.0 || _goal->pcaCustomXFlipAxis.y != 0.0 || _goal->pcaCustomXFlipAxis.z != 0.0) {
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/x", _goal->pcaCustomXFlipAxis.x);
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/y", _goal->pcaCustomXFlipAxis.y);
+				private_node_handle_->setParam(principal_component_analysis_module_parameter_server_namespace_ + "custom_x_flip_axis/z", _goal->pcaCustomXFlipAxis.z);
 			}
 		}
 	}
@@ -105,6 +113,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		while (true) {
 			if (checkIfPreemptionWasRequested()) {
 				object_pose_estimator_.stopProcessingSensorData();
+				object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
 				return;
 			}
 
@@ -130,6 +139,8 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	} else {
 		publihGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatusToStr(status) + "]");
 	}
+
+	object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
 }
 
 

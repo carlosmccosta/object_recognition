@@ -1,9 +1,10 @@
 #goal definition
-string operationMode # SETUP | SETUP_WITHOUT_CACHING | PERCEPTION
+string operationMode # SETUP | SETUP_WITHOUT_CACHING | PERCEPTION | SAVE_FILTERED_POINTCLOUD
 string objectModel
-string tf_name_for_sorting_clusters
+string tfNameForSortingClusters
 int32 clusterIndex
-geometry_msgs/Vector3 pca_custom_x_flip_axis
+geometry_msgs/Vector3 pcaCustomXFlipAxis
+string filteredPointcloudSaveFrameId
 ---
 #result definition
 geometry_msgs/Pose pose
