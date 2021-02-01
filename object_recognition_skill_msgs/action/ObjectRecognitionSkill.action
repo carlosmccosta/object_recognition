@@ -1,16 +1,76 @@
-#goal definition
-string operationMode # SETUP | SETUP_WITHOUT_CACHING | PERCEPTION | SAVE_FILTERED_POINTCLOUD
+#################
+# Goal definition
+
+# The perception pipeline supports several operation modes.
+# The SETUP modes are for preloading the objectModel before 3D perception.
+# -> Useful to reduce perception time -> for example, while a robot arm is
+#    moving to the scan position, the pipeline can be loading and
+#    setting up the objectModel data.
+# The option to save the filtered point cloud is useful for exporting a
+#  filtered and segmented cluster for later usage as reference point cloud.
+# -> For example, you can take a scan, move a gripper to the grasp pose and
+#    then send a goal to the perception pipeline to save the cluster that is
+#    closest to the TF associated with that gripper
+#    (using the goal field tfNameForSortingClusters).
+# -> Moreover, you can encode the grasp pose as the coordinate system of the
+#    reference point cloud by setting the filteredPointcloudSaveFrameId to
+#    the gripper frame_id.
+
+# Perception modes:
+# SETUP
+# |-> The objectModel will be loaded if it was not cached in the previously goal.
+# SETUP_WITHOUT_CACHING
+# |-> The objectModel will be loaded even if it was previously cached.
+#     Useful to reload a model that was changed after the caching goal.
+# SAVE_FILTERED_POINTCLOUD
+# |-> The filtered point cloud will be saved with the name specified in objectModel
+#      in the folder reference_pointclouds_database_folder_path
+#      (specified in the object_recognition.launch).
+# PERCEPTION
+# |-> The pipeline will perform 3D perception to estimate the 6 DoF pose of the
+#     object specified in objectModel.
+#     This is the default mode (when operationMode is empty).
+string operationMode
+
+# The reference point cloud objectModel can be:
+# 1 - .ply file name, present in the reference_pointclouds_database_folder_path
+#     (specified in the object_recognition.launch).
+# 2 - Full path to the .ply file.
+# The reference point cloud must have uniform point density.
+# |-> If you use CAD models, check the documentation about mesh tessellation
+#     for ensuring that the point cloud has uniform point density.
 string objectModel
+
+# TF name for sorting clusters based on the distance metric.
 string tfNameForSortingClusters
+
+# Cluster to select after they are sorted by the configured metric.
+# For example, if the euclidean_clustering module was configured to use
+# MaxClusterSizeSorter, the index 0 will be for the largest cluster,
+# the index 1 will be for the second largest cluster, ...
 int32 clusterIndex
+
+# When using Principal Component Analysis (PCA), a custom flip axis can be
+# specified to ensure repeatability when estimating the initial 6 DoF pose.
 geometry_msgs/Vector3 pcaCustomXFlipAxis
+
+# When using the SAVE_FILTERED_POINTCLOUD operation mode, the point cloud
+# can be transformed into a specific TF frame id.
+# |-> Useful to encode the grasp pose of a gripper as the coordinate
+#     system of the reference point cloud.
 string filteredPointcloudSaveFrameId
 ---
-#result definition
+
+###################
+# Result definition
+
+# 6 DoF pose estimated for the objectModel
 geometry_msgs/Pose pose
 int32 percentage
 string skillStatus
 ---
-#feedback
+
+#####################
+# Feedback definition
 int32 percentage
 string skillStatus
