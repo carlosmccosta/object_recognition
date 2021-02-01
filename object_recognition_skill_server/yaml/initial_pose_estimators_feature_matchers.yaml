@@ -1,4 +1,5 @@
 initial_pose_estimators_matchers:
+    initial_pose_estimation_timeout: -1.0
     publish_pointclouds_only_if_there_is_subscribers: false
     feature_matchers:
         display_feature_matching: false
