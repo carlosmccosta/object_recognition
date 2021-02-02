@@ -9,14 +9,24 @@ Configuration of this package for correcting point cloud offsets available in th
 Presentation of 6 DoF pose estimation benchmarks available [here](https://www.dropbox.com/s/frnpqfj71omnet9/Scalable_RM_T4.5.pptx?dl=0).
 
 
+[![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/-RKdsaOq-58/maxresdefault.jpg)](http://www.youtube.com/watch?v=-RKdsaOq-58&t=42)
+
+Video 1: 6 DoF pose estimation of objects on top of a conveyor using PCA and ICP matching
+
+
+[![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/pSa6ALIIDis/maxresdefault.jpg)](http://www.youtube.com/watch?v=pSa6ALIIDis&t=79)
+
+Video 2: 6 DoF pose estimation of objects on top of a conveyor using PCA and ICP matching
+
+
 [![6 DoF pose estimation of objects on top of a conveyor](http://img.youtube.com/vi/GRR2e6lvnEs/maxresdefault.jpg)](http://www.youtube.com/watch?v=GRR2e6lvnEs)
 
-Video 1: 6 DoF pose estimation of objects on top of a conveyor using CAD matching
+Video 3: 6 DoF pose estimation of objects on top of a conveyor using feature matching and ICP from CAD data
 
 
 [![Bin picking using region growing and principal component analysis](http://img.youtube.com/vi/6BgnQP4TeJM/maxresdefault.jpg)](http://www.youtube.com/watch?v=6BgnQP4TeJM)
 
-Video 2: 6 DoF pose estimation of the vacuum grasp pose for smooth objects inside bins using region growing and principal component analysis
+Video 4: 6 DoF pose estimation of the vacuum grasp pose for smooth objects inside bins using region growing and principal component analysis
 
 
 ![Overview of the main processing modules](https://raw.githubusercontent.com/carlosmccosta/dynamic_robot_localization/kinetic-devel/docs/perception-overview.png)
