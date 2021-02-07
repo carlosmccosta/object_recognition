@@ -68,7 +68,8 @@
 	<arg name="yaml_configuration_curvature_estimators_filename" default="$(find object_recognition_skill_server)/yaml/curvature_estimators.yaml" />
 	<arg name="yaml_configuration_keypoint_detectors_filename" default="$(find object_recognition_skill_server)/yaml/keypoint_detectors.yaml" />
 	<arg name="yaml_configuration_initial_pose_estimators_feature_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_feature_matchers.yaml" />
-	<arg name="yaml_configuration_initial_pose_estimators_pca_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_pca_matchers.yaml" />
+	<arg name="yaml_configuration_initial_pose_estimators_pca_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_pca_matchers.yaml" if="$(eval base_link_frame_id == 'camera_link')" />
+	<arg name="yaml_configuration_initial_pose_estimators_pca_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_pca_matchers_with_base_link_axes_flip.yaml" unless="$(eval base_link_frame_id == 'camera_link')" />
 	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers_with_normals.yaml" if="$(arg use_iterative_closest_point_with_normals)" />
 	<arg name="yaml_configuration_initial_pose_estimators_point_matchers_filename" default="$(find object_recognition_skill_server)/yaml/initial_pose_estimators_point_matchers.yaml" unless="$(arg use_iterative_closest_point_with_normals)" />
 	<arg name="yaml_configuration_transformation_aligner_filename" default="$(find object_recognition_skill_server)/yaml/transformation_aligner.yaml" />

@@ -2,7 +2,7 @@
  * \brief Action server node for object recognition
  *
  * @version 1.0
- * @author carloscosta
+ * @author Carlos M. Costa
  */
 
 #include <ros/ros.h>

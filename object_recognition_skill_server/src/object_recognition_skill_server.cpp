@@ -2,7 +2,7 @@
  * \brief File with ObjectRecognitionSkillServer class implementation
  *
  * @version 1.0
- * @author carloscosta
+ * @author Carlos M. Costa
  */
 
 #include <object_recognition_skill_server/object_recognition_skill_server.h>
@@ -59,7 +59,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 				ROS_INFO_STREAM("Using cached model [" << cached_object_model_ << "]");
 			} else {
 				if ((!_goal->objectModel.empty() && !object_pose_estimator_.loadReferencePointCloudFromFile(_goal->objectModel)) || !object_pose_estimator_.referencePointCloudLoaded()) {
-					publihGoalAborted("Missing reference point cloud");
+					publishGoalAborted("Missing reference point cloud");
 					return;
 				} else {
 					if (!_goal->objectModel.empty())
@@ -137,7 +137,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	} else if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPreprocessing) {
 		publishGoalSucceeded();
 	} else {
-		publihGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatusToStr(status) + "]");
+		publishGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatusToStr(status) + "]");
 	}
 
 	object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
@@ -152,10 +152,10 @@ void ObjectRecognitionSkillServer::publishGoalSucceeded() {
 }
 
 
-void ObjectRecognitionSkillServer::publihGoalAborted(const std::string& _message) {
+void ObjectRecognitionSkillServer::publishGoalAborted(const std::string& _message) {
 	result_.percentage = 0;
 	result_.skillStatus = action_server_name_ + ": Aborted | Reason: " + _message;
-	ROS_INFO_STREAM(result_.skillStatus);
+	ROS_ERROR_STREAM(result_.skillStatus);
 	actionServer_->setAborted(result_, result_.skillStatus);
 }
 
@@ -171,7 +171,7 @@ void ObjectRecognitionSkillServer::publishGoalFeedback(int _percentage) {
 bool ObjectRecognitionSkillServer::checkIfPreemptionWasRequested() {
 	if (actionServer_->isPreemptRequested() || !ros::ok()) {
 		result_.skillStatus = action_server_name_ + ": Preempted";
-		ROS_INFO_STREAM(result_.skillStatus);
+		ROS_WARN_STREAM(result_.skillStatus);
 		actionServer_->setPreempted(result_, result_.skillStatus);
 		return true;
 	} else {
