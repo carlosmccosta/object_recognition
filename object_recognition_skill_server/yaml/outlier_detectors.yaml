@@ -1,6 +1,13 @@
 outlier_detectors:
     euclidean_outlier_detector:
         max_inliers_distance: 0.003
+        colorize_inliers_based_on_correspondence_distance: true
+        colorize_outliers_with_red_color: true
+        max_curvature_difference: 0.0
+        max_normals_angular_difference_in_degrees: -30.0
+        max_hsv_color_hue_difference_in_degrees: -30.0
+        max_hsv_color_saturation_difference: 0.3
+        max_hsv_color_value_difference: 0.3
         aligned_pointcloud_outliers_publish_topic: 'aligned_pointcloud_outliers'
         aligned_pointcloud_inliers_publish_topic: 'aligned_pointcloud_inliers'
 
@@ -8,5 +15,12 @@ outlier_detectors:
 outlier_detectors_reference_pointcloud:
     euclidean_outlier_detector:
         max_inliers_distance: 0.003
+        colorize_inliers_based_on_correspondence_distance: true
+        colorize_outliers_with_red_color: true
+        max_curvature_difference: 0.0
+        max_normals_angular_difference_in_degrees: -30.0
+        max_hsv_color_hue_difference_in_degrees: -30.0
+        max_hsv_color_saturation_difference: 0.3
+        max_hsv_color_value_difference: 0.3
         reference_pointcloud_outliers_publish_topic: 'reference_pointcloud_outliers'
         reference_pointcloud_inliers_publish_topic: 'reference_pointcloud_inliers'
