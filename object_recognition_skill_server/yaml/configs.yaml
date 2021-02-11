@@ -14,6 +14,7 @@ message_management:
     invert_registration_transformation: true
     invert_initial_poses_from_msgs: false
     initial_pose_msg_needs_to_be_in_map_frame: false
+    remove_points_in_sensor_origin: true
     minimum_number_of_points_in_ambient_pointcloud: 100
     circular_buffer_clear_inserted_points_if_registration_fails: false
     limit_of_pointclouds_to_process: 1
