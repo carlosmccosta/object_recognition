@@ -19,7 +19,7 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
 	private_node_handle_->param<bool>("use_object_model_caching", use_object_model_caching_, true);
 	private_node_handle_->param<int>("number_of_recognition_retries", number_of_recognition_retries_, 3);
-	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_);
+	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_, "");
 	return true;
 }
 
@@ -107,7 +107,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	ros::Rate rate(10);
 
 	for (int i = 0; i < number_of_recognition_retries_ + 1; ++i) {
-		object_pose_estimator_.setupInitialPose();
+		object_pose_estimator_.setupInitialPoseFromParameterServer();
 		object_pose_estimator_.restartProcessingSensorData();
 
 		while (true) {
@@ -137,7 +137,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	} else if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPreprocessing) {
 		publishGoalSucceeded();
 	} else {
-		publishGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatusToStr(status) + "]");
+		publishGoalAborted("Pose estimation failed with error [" + dynamic_robot_localization::Localization<DRLPointType>::s_sensorDataProcessingStatusToStr(status) + "]");
 	}
 
 	object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
