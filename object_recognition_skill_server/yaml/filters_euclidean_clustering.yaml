@@ -3,10 +3,10 @@ filters:
         3_euclidean_clustering:
             cluster_tolerance: 0.015
             min_cluster_size: 200
-            min_cluster_index: 0
-            max_cluster_index: 1
             filtered_cloud_publish_topic: 'filtered_pointcloud_clustering'
             cluster_selector:
                 sorting_algorithm: "MaxClusterSizeSorter" # Available sorters: [ MinClusterSizeSorter | MaxClusterSizeSorter | MinDistanceToOriginSorter | MaxDistanceToOriginSorter | MinAxisValueSorter | MaxAxisValueSorter ]
                 sorting_axis: "Y" # Available axis: [ X | Y | Z ] -> only used with [ MinAxisValueSorter | MaxAxisValueSorter ]
                 clusters_colored_cloud_publish_topic: 'filtered_pointcloud_clusters_colored'
+                min_cluster_index: 0
+                max_cluster_index: 1

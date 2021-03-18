@@ -19,6 +19,7 @@ bool ObjectRecognitionSkillServer::setupConfigurationFromParameterServer(ros::No
 	private_node_handle_->param<std::string>("action_server_name", action_server_name_, "ObjectRecognitionSkill");
 	private_node_handle_->param<bool>("use_object_model_caching", use_object_model_caching_, true);
 	private_node_handle_->param<int>("number_of_recognition_retries", number_of_recognition_retries_, 3);
+	private_node_handle_->param<bool>("on_failure_try_perception_on_other_clusters", on_failure_try_perception_on_other_clusters_, true);
 	object_pose_estimator_.setupConfigurationFromParameterServer(node_handle_, private_node_handle_, "");
 	return true;
 }
@@ -75,6 +76,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		return;
 	}
 
+	bool clustering_enabled = false;
 	private_node_handle_->param<std::string>("clustering_module_parameter_server_namespace", clustering_module_parameter_server_namespace_, "");
 	if (!clustering_module_parameter_server_namespace_.empty()) {
 		if (private_node_handle_->hasParam(clustering_module_parameter_server_namespace_)) {
@@ -84,8 +86,10 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "tf_name_for_sorting_clusters", _goal->tfNameForSortingClusters);
 
+			ROS_INFO_STREAM("Setting perception cluster index from goal to [" << _goal->clusterIndex << "]");
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", _goal->clusterIndex);
 			private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", _goal->clusterIndex + 1);
+			clustering_enabled = true;
 		}
 	}
 
@@ -106,28 +110,54 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus status = dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::FailedPoseEstimation;
 	ros::Rate rate(10);
 
-	for (int i = 0; i < number_of_recognition_retries_ + 1; ++i) {
-		object_pose_estimator_.setupInitialPoseFromParameterServer();
-		object_pose_estimator_.restartProcessingSensorData();
-
-		while (true) {
-			if (checkIfPreemptionWasRequested()) {
-				object_pose_estimator_.stopProcessingSensorData();
-				object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
-				return;
+	int number_of_clusters = 1;
+	int current_cluster = 0;
+	bool break_processing = false;
+	bool goal_cluster_processed = false;
+	while (current_cluster < number_of_clusters && !break_processing) {
+		bool retry_other_clusters_active = on_failure_try_perception_on_other_clusters_ && clustering_enabled && goal_cluster_processed;
+		bool current_cluster_is_different_than_goal_and_needs_to_be_processed = retry_other_clusters_active && current_cluster !=_goal->clusterIndex;
+		if (!goal_cluster_processed || current_cluster_is_different_than_goal_and_needs_to_be_processed) {
+			if (current_cluster_is_different_than_goal_and_needs_to_be_processed) {
+				ROS_INFO_STREAM("Setting perception cluster index to [" << current_cluster << "]");
+				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", current_cluster);
+				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", current_cluster + 1);
 			}
 
-			ros::spinOnce();
-			status = object_pose_estimator_.getSensorDataProcessingStatus();
-			if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::WaitingForSensorData)
-				rate.sleep();
-			else
-				break;
+			for (int i = 0; i < number_of_recognition_retries_ + 1; ++i) {
+				object_pose_estimator_.setupInitialPoseFromParameterServer();
+				object_pose_estimator_.restartProcessingSensorData();
+
+				while (true) {
+					if (checkIfPreemptionWasRequested()) {
+						object_pose_estimator_.stopProcessingSensorData();
+						object_pose_estimator_.setReferencePointCloudRequired(referencePointCloudRequired);
+						return;
+					}
+
+					ros::spinOnce();
+					status = object_pose_estimator_.getSensorDataProcessingStatus();
+					if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::WaitingForSensorData)
+						rate.sleep();
+					else
+						break;
+				}
+
+				object_pose_estimator_.stopProcessingSensorData();
+				if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPreprocessing || status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation) {
+					break_processing = true;
+					break;
+				}
+			}
 		}
 
-		object_pose_estimator_.stopProcessingSensorData();
-		if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPreprocessing || status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation)
-			break;
+		if (on_failure_try_perception_on_other_clusters_ && clustering_enabled && !goal_cluster_processed) {
+			private_node_handle_->param<int>(clustering_module_parameter_server_namespace_ + "number_of_clusters_detected", number_of_clusters, 1);
+			ROS_INFO_STREAM("Retrying perception on other " << (number_of_clusters - 1) << " clusters");
+		} else {
+			++current_cluster;
+		}
+		goal_cluster_processed = true;
 	}
 
 	if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation) {

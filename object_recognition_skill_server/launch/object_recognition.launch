@@ -101,6 +101,7 @@
 	<arg name="use_object_model_caching" default="true"/>
 	<arg name="number_of_recognition_retries" default="0" if="$(arg use_cloud_storage_mode)"/>
 	<arg name="number_of_recognition_retries" default="3" unless="$(arg use_cloud_storage_mode)"/>
+	<arg name="on_failure_try_perception_on_other_clusters" default="true"/>
 
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/3_euclidean_clustering/cluster_selector/" if="$(eval use_euclidean_clustering_segmentation)" />
 	<arg name="clustering_module_parameter_server_namespace" default="filters/ambient_pointcloud_filters_after_normal_estimation/4_region_growing/cluster_selector/" if="$(eval use_region_growing_segmentation)" />
@@ -127,6 +128,7 @@
 			<param name="action_server_name" type="str" value="$(arg action_server_name)" />
 			<param name="use_object_model_caching" type="bool" value="$(arg use_object_model_caching)" />
 			<param name="number_of_recognition_retries" type="int" value="$(arg number_of_recognition_retries)" />
+			<param name="on_failure_try_perception_on_other_clusters" type="bool" value="$(arg on_failure_try_perception_on_other_clusters)" />
 			<param name="clustering_module_parameter_server_namespace" type="str" value="$(arg clustering_module_parameter_server_namespace)" />
 			<param name="principal_component_analysis_module_parameter_server_namespace" type="str" value="$(arg principal_component_analysis_module_parameter_server_namespace)" />
 			<param name="frame_ids/map_frame_id" type="str" value="$(arg object_frame_id)" />

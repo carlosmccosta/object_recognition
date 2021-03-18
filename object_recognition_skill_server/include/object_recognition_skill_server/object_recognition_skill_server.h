@@ -45,5 +45,6 @@ class ObjectRecognitionSkillServer {
 		bool use_object_model_caching_;
 		std::string cached_object_model_;
 		int number_of_recognition_retries_;
+		bool on_failure_try_perception_on_other_clusters_;
 };
 }
