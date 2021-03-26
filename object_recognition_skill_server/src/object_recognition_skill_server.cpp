@@ -119,7 +119,7 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 		bool current_cluster_is_different_than_goal_and_needs_to_be_processed = retry_other_clusters_active && current_cluster !=_goal->clusterIndex;
 		if (!goal_cluster_processed || current_cluster_is_different_than_goal_and_needs_to_be_processed) {
 			if (current_cluster_is_different_than_goal_and_needs_to_be_processed) {
-				ROS_INFO_STREAM("Setting perception cluster index to [" << current_cluster << "]");
+				ROS_INFO_STREAM("Retrying perception on cluster with index [" << current_cluster << "]");
 				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "min_cluster_index", current_cluster);
 				private_node_handle_->setParam(clustering_module_parameter_server_namespace_ + "max_cluster_index", current_cluster + 1);
 			}
@@ -153,7 +153,6 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 
 		if (on_failure_try_perception_on_other_clusters_ && clustering_enabled && !goal_cluster_processed) {
 			private_node_handle_->param<int>(clustering_module_parameter_server_namespace_ + "number_of_clusters_detected", number_of_clusters, 1);
-			ROS_INFO_STREAM("Retrying perception on other " << (number_of_clusters - 1) << " clusters");
 		} else {
 			++current_cluster;
 		}
