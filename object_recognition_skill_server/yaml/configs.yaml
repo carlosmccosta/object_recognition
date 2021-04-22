@@ -25,6 +25,7 @@ message_management:
     localization_detailed_use_millimeters_in_root_mean_square_error_of_last_registration_correspondences: true
     localization_detailed_use_millimeters_in_translation_corrections: true
     localization_detailed_use_degrees_in_rotation_corrections: true
+    normalize_ambient_pointcloud_normals: true
 #    circular_buffer_require_reception_of_pointcloud_msgs_from_all_topics_before_doing_registration: true
 #    minimum_number_points_ambient_pointcloud_circular_buffer: 2500
 #    maximum_number_points_ambient_pointcloud_circular_buffer: 2500
