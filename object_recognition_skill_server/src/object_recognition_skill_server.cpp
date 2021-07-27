@@ -161,7 +161,9 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 
 	if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPoseEstimation) {
 		tf2::Transform object_pose_in_camera_frame = object_pose_estimator_.getAcceptedEstimatedPose().inverse();
-		tf2::toMsg(object_pose_in_camera_frame, result_.pose);
+		tf2::toMsg(object_pose_in_camera_frame, result_.pose.pose);
+		result_.pose.header.stamp = object_pose_estimator_.getLastAcceptedPoseTime();
+		result_.pose.header.frame_id = object_pose_estimator_.getBaseLinkFrameId();
 		publishGoalSucceeded();
 	} else if (status == dynamic_robot_localization::Localization<DRLPointType>::SensorDataProcessingStatus::SuccessfulPreprocessing) {
 		publishGoalSucceeded();

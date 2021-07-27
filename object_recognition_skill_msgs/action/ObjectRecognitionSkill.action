@@ -65,7 +65,7 @@ string filteredPointcloudSaveFrameId
 # Result definition
 
 # 6 DoF pose estimated for the objectModel
-geometry_msgs/Pose pose
+geometry_msgs/PoseStamped pose
 
 # Goal aborted -> 0
 # Goal preempted -> Less than 100
