@@ -31,7 +31,7 @@ initial_pose_estimators_matchers:
             sample_consensus_initial_alignment_prerejective:
                 convergence_time_limit_seconds: 2.0
                 similarity_threshold: 0.5
-                inlier_fraction: 0.6
+                inlier_fraction: 0.5
                 number_of_samples: 10
                 correspondence_randomness: 30
                 registered_cloud_publish_topic: 'initial_alignment'
