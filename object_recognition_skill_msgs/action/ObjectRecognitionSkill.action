@@ -59,6 +59,14 @@ geometry_msgs/Vector3 pcaCustomXFlipAxis
 # |-> Useful to encode the grasp pose of a gripper as the coordinate
 #     system of the reference point cloud.
 string filteredPointcloudSaveFrameId
+
+# Estimative for the 6 DoF pose of the camera (base_link_frame_id),
+# specified in the object_frame_id coordinate system that is
+# associated with the objectModel specified above in this ROS message.
+# It will only be used if the sum of the pose quaternion values is not zero.
+# When the initial pose is specified in the goal, the initial pose estimation modules
+# will not be used (such as PCA and feature matching).
+geometry_msgs/Pose initialPose
 ---
 
 ###################

@@ -114,6 +114,8 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 	int current_cluster = 0;
 	bool break_processing = false;
 	bool goal_cluster_processed = false;
+	bool set_initial_pose_from_goal = (_goal->initialPose.orientation.x + _goal->initialPose.orientation.y + _goal->initialPose.orientation.z + _goal->initialPose.orientation.w) != 0.0;
+
 	while (current_cluster < number_of_clusters && !break_processing) {
 		bool retry_other_clusters_active = on_failure_try_perception_on_other_clusters_ && clustering_enabled && goal_cluster_processed;
 		bool current_cluster_is_different_than_goal_and_needs_to_be_processed = retry_other_clusters_active && current_cluster !=_goal->clusterIndex;
@@ -125,7 +127,12 @@ void ObjectRecognitionSkillServer::processGoal(const object_recognition_skill_ms
 			}
 
 			for (int i = 0; i < number_of_recognition_retries_ + 1; ++i) {
-				object_pose_estimator_.setupInitialPoseFromParameterServer();
+				if (set_initial_pose_from_goal) {
+					object_pose_estimator_.setInitialPoseFromPose(_goal->initialPose);
+				} else {
+					object_pose_estimator_.setupInitialPoseFromParameterServer();
+				}
+
 				object_pose_estimator_.restartProcessingSensorData();
 
 				while (true) {

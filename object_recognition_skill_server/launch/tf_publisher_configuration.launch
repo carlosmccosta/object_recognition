@@ -16,18 +16,18 @@
 	<arg name="publish_pose_tf_rate" default="-5.0" />
 	<arg name="update_transform_timestamp_when_republishing_tf" default="false" />
 	<arg name="publish_last_pose_tf_timeout_seconds" default="-3.0" />
-	<arg name="invert_tf_transform" default="false" />
+	<arg name="invert_tf_transform" default="true" />
 	<arg name="invert_tf_hierarchy" default="true" />
 	<arg name="transform_pose_to_object_frame_id" default="false" />
 
 	<!-- initial pose setup -->
 	<arg name="robot_initial_pose_in_base_to_map" default="true" />
-	<arg name="robot_initial_x" default="0" />
-	<arg name="robot_initial_y" default="0" />
-	<arg name="robot_initial_z" default="0" />
-	<arg name="robot_initial_roll" default="0" />
-	<arg name="robot_initial_pitch" default="0" />
-	<arg name="robot_initial_yaw" default="0" />
+	<arg name="robot_initial_x" default="0.0" />
+	<arg name="robot_initial_y" default="0.0" />
+	<arg name="robot_initial_z" default="0.0" />
+	<arg name="robot_initial_roll" default="0.0" />
+	<arg name="robot_initial_pitch" default="0.0" />
+	<arg name="robot_initial_yaw" default="0.0" />
 
 
 	<group ns="$(arg namespace)" clear_params="true">
