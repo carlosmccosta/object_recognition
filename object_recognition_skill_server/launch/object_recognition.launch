@@ -49,6 +49,7 @@
 	<arg name="use_feature_matching_for_initial_alignment" default="true" />
 	<arg name="use_curvature_estimation" default="$(arg use_feature_matching_for_initial_alignment)" />
 	<arg name="use_pca_for_initial_alignment" default="false" />
+	<arg name="use_filters_for_outlier_detection" default="false" />
 	<arg name="load_initial_pose_estimation_pipeline_using_pca" default="$(eval use_pca_for_initial_alignment and not use_feature_matching_for_initial_alignment)" />
 	<arg name="use_cloud_matching" default="true" />
 	<arg name="use_iterative_closest_point_with_normals" default="true" />
@@ -65,6 +66,7 @@
 	<arg name="yaml_configuration_configs_filename" default="$(find object_recognition_skill_server)/yaml/configs.yaml" />
 	<arg name="yaml_configuration_filters_filename" default="" />
 	<arg name="yaml_configuration_filters_roi_filename" default="$(find object_recognition_skill_server)/yaml/filters_roi.yaml" />
+	<arg name="yaml_configuration_filters_ambient_pointcloud_outlier_detection_filename" default="$(find object_recognition_skill_server)/yaml/filters_ambient_pointcloud_outlier_detection.yaml" />
 	<arg name="yaml_configuration_filters_ambient_pointcloud_integration_voxel_grid_filename" default="$(find object_recognition_skill_server)/yaml/filters_ambient_pointcloud_integration_voxel_grid.yaml" />
 	<arg name="yaml_configuration_filters_ambient_pointcloud_integration_random_sample_filename" default="$(find object_recognition_skill_server)/yaml/filters_ambient_pointcloud_integration_random_sample.yaml" />
 	<arg name="yaml_configuration_filters_voxel_grid_filename" default="$(find object_recognition_skill_server)/yaml/filters_voxel_grid.yaml" />
@@ -179,6 +181,7 @@
 			<rosparam command="load" file="$(arg yaml_configuration_filters_region_growing_filename)" subst_value="false" if="$(eval bool(yaml_configuration_filters_region_growing_filename) and use_region_growing_segmentation)" />
 			<rosparam command="load" file="$(arg yaml_configuration_normal_estimators_filename)" subst_value="true" if="$(eval bool(yaml_configuration_normal_estimators_filename) and use_normal_estimation)" />
 			<rosparam command="load" file="$(arg yaml_configuration_custom_filename)" subst_value="true" if="$(eval bool(yaml_configuration_custom_filename))" />
+			<rosparam command="load" file="$(arg yaml_configuration_filters_ambient_pointcloud_outlier_detection_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_ambient_pointcloud_outlier_detection_filename) and use_filters_for_outlier_detection)" />
 
 			<group if="$(arg use_cloud_storage_mode)" >
 				<rosparam command="load" file="$(arg yaml_configuration_filters_ambient_pointcloud_integration_voxel_grid_filename)" subst_value="true" if="$(eval bool(yaml_configuration_filters_ambient_pointcloud_integration_voxel_grid_filename) and use_voxel_grid_segmentation_in_cloud_storage_mode)" />

@@ -1,0 +1,21 @@
+filters:
+    ambient_pointcloud_for_outlier_detection:
+        0_crop_box:
+            box_min_x: -1.5
+            box_min_y: -1.5
+            box_min_z: 0.0
+            box_max_x: 1.5
+            box_max_y: 1.5
+            box_max_z: 2.0
+            invert_selection: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_for_outlier_detection_crop_box'
+        1_voxel_grid:
+            leaf_size_x: 0.002
+            leaf_size_y: 0.002
+            leaf_size_z: 0.002
+            filter_limit_field_name: 'z'
+            filter_limit_min: -5.0
+            filter_limit_max: 5.0
+            downsample_all_data: true
+            save_leaf_layout: false
+            filtered_cloud_publish_topic: 'filtered_pointcloud_for_outlier_detection_voxel_grid'
